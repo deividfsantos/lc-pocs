@@ -52,9 +52,9 @@ public class DbConnection {
             // Configurações do Hibernate
             Properties settings = new Properties();
             settings.put(Environment.DRIVER, "oracle.jdbc.OracleDriver");
-            settings.put(Environment.URL, "");
-            settings.put(Environment.USER, "");
-            settings.put(Environment.PASS, "");
+            settings.put(Environment.URL, "jdbc:oracle:thin:@//localhost:1521/FREE");
+            settings.put(Environment.USER, "SYS as SYSDBA");
+            settings.put(Environment.PASS, "Test123");
             settings.put(Environment.DIALECT, "org.hibernate.dialect.OracleDialect");
 
             // Outras configurações
