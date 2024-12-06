@@ -14,7 +14,7 @@ public class Main {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            String hql = "FROM ExampleEntity";
+            String hql = "FROM example_table";
             Query<ExampleEntity> query = session.createQuery(hql, ExampleEntity.class);
             List<ExampleEntity> resultList = query.getResultList();
 
