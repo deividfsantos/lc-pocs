@@ -21,8 +21,7 @@ public class Main {
             for (ExampleEntity entity : resultList) {
                 System.out.println(entity);
             }
-
-            session.getTransaction().commit();
         }
+        sessionFactory.close();
     }
 }

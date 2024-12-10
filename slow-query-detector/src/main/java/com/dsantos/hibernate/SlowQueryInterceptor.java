@@ -15,7 +15,7 @@ public class SlowQueryInterceptor extends EmptyInterceptor {
 
     @Override
     public void afterTransactionBegin(Transaction tx) {
-        System.out.println("Detecting slow query  " + tx.getStatus());
+        System.out.println("Detecting slow query " + tx.getStatus());
         super.afterTransactionCompletion(tx);
         long executionTime = System.currentTimeMillis() - startTime;
 
