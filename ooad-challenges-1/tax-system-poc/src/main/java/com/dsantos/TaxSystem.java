@@ -14,7 +14,7 @@ public class TaxSystem {
         BigDecimal taxInCalifornia = calculator.calculateTax(product, "California", 2024);
         BigDecimal taxInNewYork = calculator.calculateTax(product, "New York", 2024);
 
-        System.out.println("Tax in California: $" + taxInCalifornia);
-        System.out.println("Tax in New York: $" + taxInNewYork);
+        System.out.println("Tax in California: $" + taxInCalifornia + " for product " + product.getName());
+        System.out.println("Tax in New York: $" + taxInNewYork + " for product " + product.getName());
     }
 }

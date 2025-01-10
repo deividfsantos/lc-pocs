@@ -1,11 +1,9 @@
 package com.dsantos;
 
-import com.dsantos.TaxRate;
-
 import java.math.BigDecimal;
 
 public class TaxCalculator {
-    private TaxRate taxRate;
+    private final TaxRate taxRate;
 
     public TaxCalculator(TaxRate taxRate) {
         this.taxRate = taxRate;
