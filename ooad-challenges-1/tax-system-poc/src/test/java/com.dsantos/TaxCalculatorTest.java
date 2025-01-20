@@ -1,5 +1,6 @@
 package com.dsantos;
 
+import static org.junit.jupiter.api.Assertions.*;
 class TaxCalculatorTest {
 
     void setUp() {
