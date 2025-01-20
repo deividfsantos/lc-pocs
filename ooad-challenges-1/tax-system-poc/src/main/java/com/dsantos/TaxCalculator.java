@@ -11,15 +11,15 @@ public class TaxCalculator {
     }
 
     public BigDecimal calculateTax(Product product, String state, Integer year) {
-        Double rate = getTaxes(product, state, year);
+        Double rate = getTaxes(product, new StateSpecification(state), new YearSpecification(year));
         return product.getPrice().multiply(BigDecimal.valueOf(rate));
     }
 
-    private Double getTaxes(Product product, String state, Integer year) {
+    private Double getTaxes(Product product, Specification<State> stateSpec, Specification<Year> yearSpec) {
         return years.stream()
-                .filter(y -> y.year().equals(year))
+                .filter(yearSpec::isSatisfiedBy)
                 .flatMap(y -> y.states().stream())
-                .filter(s -> s.name().equals(state))
+                .filter(stateSpec::isSatisfiedBy)
                 .map(s -> s.productTaxRates().get(product.getName()))
                 .findFirst()
                 .orElseThrow();
