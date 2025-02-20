@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FactoryTest {
     @Test
@@ -14,6 +13,7 @@ class FactoryTest {
         Product productA = Factory.createProduct("A");
         assertNotNull(productA);
         assertInstanceOf(ConcreteProductA.class, productA);
+        productA.use();
     }
 
     @Test
@@ -21,6 +21,7 @@ class FactoryTest {
         Product productB = Factory.createProduct("B");
         assertNotNull(productB);
         assertInstanceOf(ConcreteProductB.class, productB);
+        productB.use();
     }
 
     @Test
