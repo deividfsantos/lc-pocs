@@ -14,7 +14,6 @@ class RoundHoleTest {
         RoundPeg rpegBig = new RoundPeg(7);
         assertTrue(hole.fits(rpeg));
         assertFalse(hole.fits(rpegBig));
-
     }
 
     @Test
