@@ -8,7 +8,7 @@ public class DatabaseServiceProxyTest {
 
     @Test
     public void testUnauthorizedAccess() {
-        DatabaseSerice dbService = new DatabaseServiceProxy("user", "user123");
+        DatabaseService dbService = new DatabaseServiceProxy("user", "user123");
         Exception exception = assertThrows(Exception.class, () -> {
             dbService.connect("jdbc:mysql://localhost:3306/mydb");
         });
