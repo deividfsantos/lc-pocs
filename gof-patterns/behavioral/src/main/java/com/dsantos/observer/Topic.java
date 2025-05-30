@@ -3,14 +3,14 @@ package com.dsantos.observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyTopic implements Subject {
+public class Topic implements Subject {
 
     private final List<Observer> observers;
     private String message;
     private boolean changed;
     private final Object MUTEX = new Object();
 
-    public MyTopic() {
+    public Topic() {
         this.observers = new ArrayList<>();
     }
 
@@ -41,7 +41,6 @@ public class MyTopic implements Subject {
         for (Observer obj : observersLocal) {
             obj.update();
         }
-
     }
 
     @Override
@@ -55,5 +54,4 @@ public class MyTopic implements Subject {
         this.changed = true;
         notifyObservers();
     }
-
 }

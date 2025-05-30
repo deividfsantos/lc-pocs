@@ -3,7 +3,7 @@ package com.dsantos.observer;
 public class ObserverPatternTest {
 
     public static void main(String[] args) {
-        MyTopic topic = new MyTopic();
+        Topic topic = new Topic();
 
         Observer obj1 = new MyTopicSubscriber("Obj1");
         Observer obj2 = new MyTopicSubscriber("Obj2");
