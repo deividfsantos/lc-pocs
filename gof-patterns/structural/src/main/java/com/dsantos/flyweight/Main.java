@@ -10,10 +10,10 @@ public class Main {
 
         Shape square2 = ShapeFactory.getShape("Square");
         System.out.println(square2.draw("Blue"));
-        
+
         Shape circle2 = ShapeFactory.getShape("Circle");
         System.out.println(circle2.draw("Blue"));
-        
+
         Shape circle3 = ShapeFactory.getShape("Circle");
         System.out.println(circle3.draw("Green"));
 

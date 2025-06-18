@@ -1,7 +1,5 @@
 package com.dsantos.prototype;
 
-import java.util.List;
-
 class PrototypePatternTest {
 
 //    public static void main(String[] args) throws CloneNotSupportedException {

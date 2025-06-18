@@ -1,7 +1,7 @@
 package com.dsantos.builder;
 
 public class ProductWithInnerBuilder {
-    
+
     private final Integer id;
     private final String name;
     private final String brand;

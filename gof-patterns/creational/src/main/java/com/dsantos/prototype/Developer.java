@@ -7,7 +7,7 @@ public class Developer implements EmployeePrototype {
     public Developer(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String name() {
         return name;
