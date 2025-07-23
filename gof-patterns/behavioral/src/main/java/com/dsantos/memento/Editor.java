@@ -16,6 +16,6 @@ public class Editor {
     }
 
     public void restore(Memento memento) {
-        content = memento.getState();
+        content = memento.state();
     }
 }

@@ -6,7 +6,6 @@ public class Application {
         Editor editor = new Editor();
         History history = new History();
 
-        // Writing and saving states
         editor.setContent("First line.");
         history.save(editor.save());
         System.out.println("Current content: " + editor.getContent());
@@ -18,14 +17,12 @@ public class Application {
         editor.setContent("Third line.");
         System.out.println("Current content: " + editor.getContent());
 
-        // Undoing the last change
         Memento lastSavedState = history.undo();
         if (lastSavedState != null) {
             editor.restore(lastSavedState);
         }
         System.out.println("After undo: " + editor.getContent());
 
-        // Undoing again
         lastSavedState = history.undo();
         if (lastSavedState != null) {
             editor.restore(lastSavedState);
