@@ -57,8 +57,8 @@ public class LogRouter {
                     rule.appender.append(logEntry);
                 } catch (Exception e) {
                     // Log routing errors to stderr to avoid infinite loops
-                    System.err.println("Error routing log to appender " + 
-                        rule.appender.getName() + ": " + e.getMessage());
+                    System.err.println("Error routing log to appender " +
+                            rule.appender.getName() + ": " + e.getMessage());
                 }
             }
         }
@@ -72,8 +72,8 @@ public class LogRouter {
             try {
                 rule.appender.flush();
             } catch (Exception e) {
-                System.err.println("Error flushing appender " + 
-                    rule.appender.getName() + ": " + e.getMessage());
+                System.err.println("Error flushing appender " +
+                        rule.appender.getName() + ": " + e.getMessage());
             }
         }
     }
@@ -86,8 +86,8 @@ public class LogRouter {
             try {
                 rule.appender.close();
             } catch (Exception e) {
-                System.err.println("Error closing appender " + 
-                    rule.appender.getName() + ": " + e.getMessage());
+                System.err.println("Error closing appender " +
+                        rule.appender.getName() + ": " + e.getMessage());
             }
         }
         rules.clear();

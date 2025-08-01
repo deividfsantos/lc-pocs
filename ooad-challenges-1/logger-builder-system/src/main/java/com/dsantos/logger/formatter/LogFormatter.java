@@ -6,7 +6,7 @@ import com.dsantos.logger.model.LogEntry;
  * Interface para formatadores de log
  */
 public interface LogFormatter {
-    
+
     /**
      * Formata uma entrada de log em string
      */

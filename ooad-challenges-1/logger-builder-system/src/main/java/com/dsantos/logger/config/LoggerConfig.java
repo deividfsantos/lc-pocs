@@ -1,6 +1,7 @@
 package com.dsantos.logger.config;
 
 import com.dsantos.logger.model.LogLevel;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

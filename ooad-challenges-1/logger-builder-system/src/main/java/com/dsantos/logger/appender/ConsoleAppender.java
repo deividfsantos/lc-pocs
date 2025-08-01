@@ -11,7 +11,7 @@ import java.io.PrintStream;
 public class ConsoleAppender extends AbstractLogAppender {
     private static final String USE_STDERR_PROPERTY = "console.useStderr";
     private static final String ERROR_THRESHOLD_PROPERTY = "console.errorThreshold";
-    
+
     private LogFormatter formatter;
     private boolean useStderr = false;
     private LogLevel errorThreshold = LogLevel.ERROR;
@@ -23,16 +23,16 @@ public class ConsoleAppender extends AbstractLogAppender {
     @Override
     public void configure(LoggerConfig config) {
         super.configure(config);
-        
+
         // Initialize formatter
         this.formatter = new PatternLogFormatter(config.getPattern());
-        
+
         // Configure stderr usage
         Object useStderrObj = config.getProperty(USE_STDERR_PROPERTY);
         if (useStderrObj instanceof Boolean) {
             this.useStderr = (Boolean) useStderrObj;
         }
-        
+
         // Configure error threshold
         Object errorThresholdObj = config.getProperty(ERROR_THRESHOLD_PROPERTY);
         if (errorThresholdObj instanceof LogLevel) {
@@ -49,10 +49,10 @@ public class ConsoleAppender extends AbstractLogAppender {
     @Override
     protected void doAppend(LogEntry logEntry) {
         String formattedMessage = formatter.format(logEntry);
-        
+
         PrintStream output = getOutputStream(logEntry.getLevel());
         output.println(formattedMessage);
-        
+
         if (!isAsync()) {
             output.flush(); // Immediate flush for sync mode
         }

@@ -4,7 +4,6 @@ import com.dsantos.logger.appender.ConsoleAppender;
 import com.dsantos.logger.appender.ElasticsearchAppender;
 import com.dsantos.logger.appender.FileSystemAppender;
 import com.dsantos.logger.appender.LogAppender;
-import com.example.logger.appender.*;
 import com.dsantos.logger.config.LoggerConfig;
 import com.dsantos.logger.core.Logger;
 import com.dsantos.logger.model.LogLevel;
@@ -72,11 +71,11 @@ public class LoggerBuilder {
 
     public LoggerBuilder file(String filePath) {
         FileSystemAppender appender = new FileSystemAppender(filePath);
-        
+
         // Set file-specific properties
         LoggerConfig fileConfig = createAppenderConfig();
         fileConfig.setProperty("file.path", filePath);
-        
+
         appender.configure(fileConfig);
         router.addAppender(appender);
         return this;
@@ -84,10 +83,10 @@ public class LoggerBuilder {
 
     public LoggerBuilder file(String filePath, LogLevel minLevel) {
         FileSystemAppender appender = new FileSystemAppender(filePath);
-        
+
         LoggerConfig fileConfig = createAppenderConfig();
         fileConfig.setProperty("file.path", filePath);
-        
+
         appender.configure(fileConfig);
         router.addAppender(appender, minLevel);
         return this;
@@ -95,12 +94,12 @@ public class LoggerBuilder {
 
     public LoggerBuilder file(String filePath, String maxFileSize, int maxBackups) {
         FileSystemAppender appender = new FileSystemAppender(filePath);
-        
+
         LoggerConfig fileConfig = createAppenderConfig();
         fileConfig.setProperty("file.path", filePath);
         fileConfig.setProperty("file.maxSize", maxFileSize);
         fileConfig.setProperty("file.maxBackups", maxBackups);
-        
+
         appender.configure(fileConfig);
         router.addAppender(appender);
         return this;
@@ -187,9 +186,9 @@ public class LoggerBuilder {
         appenderConfig.setAsyncBufferSize(config.getAsyncBufferSize());
         appenderConfig.setAsyncFlushInterval(config.getAsyncFlushInterval());
         appenderConfig.setPattern(config.getPattern());
-        
+
         config.getProperties().forEach(appenderConfig::setProperty);
-        
+
         return appenderConfig;
     }
 
@@ -199,21 +198,21 @@ public class LoggerBuilder {
 
     public static Logger simple(String name) {
         return create(name)
-            .console()
-            .build();
+                .console()
+                .build();
     }
 
     public static Logger fileLogger(String name, String filePath) {
         return create(name)
-            .file(filePath)
-            .build();
+                .file(filePath)
+                .build();
     }
 
     public static Logger asyncFileLogger(String name, String filePath) {
         return create(name)
-            .async()
-            .file(filePath)
-            .build();
+                .async()
+                .file(filePath)
+                .build();
     }
 
     public static Logger elkLogger(String name, String host, int port, String index) {

@@ -1,18 +1,17 @@
 package com.dsantos.logger.builder;
 
-import com.example.logger.core.Logger;
-import com.example.logger.model.LogLevel;
+import com.dsantos.logger.core.Logger;
+import com.dsantos.logger.model.LogLevel;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LoggerBuilderTest {
 
     @Test
     void testSimpleBuilder() {
         Logger logger = LoggerBuilder.simple("TestLogger");
-        
+
         assertNotNull(logger);
         assertEquals("TestLogger", logger.getName());
         assertFalse(logger.getConfig().isAsyncMode());
@@ -22,14 +21,14 @@ class LoggerBuilderTest {
     @Test
     void testFluentBuilding() {
         Logger logger = LoggerBuilder.create("FluentLogger")
-            .level(LogLevel.DEBUG)
-            .async()
-            .asyncBufferSize(200)
-            .pattern("[%level] %message")
-            .property("test.prop", "test.value")
-            .console()
-            .build();
-        
+                .level(LogLevel.DEBUG)
+                .async()
+                .asyncBufferSize(200)
+                .pattern("[%level] %message")
+                .property("test.prop", "test.value")
+                .console()
+                .build();
+
         assertNotNull(logger);
         assertEquals("FluentLogger", logger.getName());
         assertTrue(logger.getConfig().isAsyncMode());
@@ -42,7 +41,7 @@ class LoggerBuilderTest {
     @Test
     void testFileLogger() {
         Logger logger = LoggerBuilder.fileLogger("FileLogger", "test.log");
-        
+
         assertNotNull(logger);
         assertEquals("FileLogger", logger.getName());
         assertFalse(logger.getConfig().isAsyncMode());
@@ -51,7 +50,7 @@ class LoggerBuilderTest {
     @Test
     void testAsyncFileLogger() {
         Logger logger = LoggerBuilder.asyncFileLogger("AsyncFileLogger", "async-test.log");
-        
+
         assertNotNull(logger);
         assertEquals("AsyncFileLogger", logger.getName());
         assertTrue(logger.getConfig().isAsyncMode());
@@ -62,7 +61,7 @@ class LoggerBuilderTest {
         assertThrows(IllegalArgumentException.class, () -> {
             LoggerBuilder.create("").build();
         });
-        
+
         assertThrows(IllegalArgumentException.class, () -> {
             LoggerBuilder.create(null).build();
         });

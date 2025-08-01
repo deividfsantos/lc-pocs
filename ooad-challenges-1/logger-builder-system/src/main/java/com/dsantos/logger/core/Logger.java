@@ -25,7 +25,7 @@ public class Logger {
     }
 
     // ============= TRACE LEVEL =============
-    
+
     public void trace(String message) {
         log(LogLevel.TRACE, message, null, null);
     }
@@ -43,7 +43,7 @@ public class Logger {
     }
 
     // ============= DEBUG LEVEL =============
-    
+
     public void debug(String message) {
         log(LogLevel.DEBUG, message, null, null);
     }
@@ -61,7 +61,7 @@ public class Logger {
     }
 
     // ============= INFO LEVEL =============
-    
+
     public void info(String message) {
         log(LogLevel.INFO, message, null, null);
     }
@@ -77,7 +77,7 @@ public class Logger {
     public void info(String message, Map<String, Object> metadata) {
         log(LogLevel.INFO, message, metadata, null);
     }
-    
+
     public void warn(String message) {
         log(LogLevel.WARN, message, null, null);
     }
@@ -93,7 +93,7 @@ public class Logger {
     public void warn(String message, Map<String, Object> metadata) {
         log(LogLevel.WARN, message, metadata, null);
     }
-    
+
     public void error(String message) {
         log(LogLevel.ERROR, message, null, null);
     }
@@ -111,7 +111,7 @@ public class Logger {
     }
 
     // ============= FATAL LEVEL =============
-    
+
     public void fatal(String message) {
         log(LogLevel.FATAL, message, null, null);
     }
@@ -129,7 +129,7 @@ public class Logger {
     }
 
     // ============= CORE LOGGING METHOD =============
-    
+
     private void log(LogLevel level, String message, Map<String, Object> metadata, Throwable throwable) {
         // Check if level is enabled
         if (!level.isEnabled(config.getLevel())) {
@@ -138,21 +138,21 @@ public class Logger {
 
         // Build log entry
         LogEntry logEntry = LogEntry.builder()
-            .message(message)
-            .level(level)
-            .logger(name)
-            .metadata(metadata)
-            .exception(throwable)
-            .build();
+                .message(message)
+                .level(level)
+                .logger(name)
+                .metadata(metadata)
+                .exception(throwable)
+                .build();
 
         router.route(logEntry);
     }
-    
+
     private String format(String message, Object... args) {
         if (args == null || args.length == 0) {
             return message;
         }
-        
+
         try {
             return String.format(message, args);
         } catch (Exception e) {
@@ -166,7 +166,7 @@ public class Logger {
             return sb.toString();
         }
     }
-    
+
     public boolean isTraceEnabled() {
         return LogLevel.TRACE.isEnabled(config.getLevel());
     }
@@ -190,7 +190,7 @@ public class Logger {
     public boolean isFatalEnabled() {
         return LogLevel.FATAL.isEnabled(config.getLevel());
     }
-    
+
     public String getName() {
         return name;
     }

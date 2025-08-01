@@ -1,10 +1,10 @@
 package com.dsantos.logger.core;
 
-import com.example.logger.appender.LogAppender;
-import com.example.logger.config.LoggerConfig;
-import com.example.logger.model.LogEntry;
-import com.example.logger.model.LogLevel;
-import com.example.logger.router.LogRouter;
+import com.dsantos.logger.appender.LogAppender;
+import com.dsantos.logger.config.LoggerConfig;
+import com.dsantos.logger.model.LogEntry;
+import com.dsantos.logger.model.LogLevel;
+import com.dsantos.logger.router.LogRouter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LoggerTest {
 
@@ -25,7 +25,7 @@ class LoggerTest {
         testAppender = new TestAppender();
         LogRouter router = new LogRouter();
         router.addAppender(testAppender);
-        
+
         LoggerConfig config = new LoggerConfig().setLevel(LogLevel.DEBUG);
         logger = new Logger("TestLogger", router, config);
     }
@@ -33,7 +33,7 @@ class LoggerTest {
     @Test
     void testBasicLogging() {
         logger.info("Test message");
-        
+
         assertEquals(1, testAppender.getLogEntries().size());
         LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals("Test message", entry.getMessage());
@@ -46,12 +46,12 @@ class LoggerTest {
         // Set level to WARN
         LoggerConfig config = new LoggerConfig().setLevel(LogLevel.WARN);
         logger.setConfig(config);
-        
+
         logger.debug("Debug message");
         logger.info("Info message");
         logger.warn("Warn message");
         logger.error("Error message");
-        
+
         assertEquals(2, testAppender.getLogEntries().size());
         assertEquals(LogLevel.WARN, testAppender.getLogEntries().get(0).getLevel());
         assertEquals(LogLevel.ERROR, testAppender.getLogEntries().get(1).getLevel());
@@ -60,7 +60,7 @@ class LoggerTest {
     @Test
     void testMessageFormatting() {
         logger.info("User %s logged in with ID %d", "john", 123);
-        
+
         LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals("User john logged in with ID 123", entry.getMessage());
     }
@@ -69,7 +69,7 @@ class LoggerTest {
     void testExceptionLogging() {
         RuntimeException ex = new RuntimeException("Test exception");
         logger.error("An error occurred", ex);
-        
+
         LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals("An error occurred", entry.getMessage());
         assertEquals(ex, entry.getException());
@@ -80,9 +80,9 @@ class LoggerTest {
         Map<String, Object> metadata = new HashMap<>();
         metadata.put("userId", "12345");
         metadata.put("action", "login");
-        
+
         logger.info("User action", metadata);
-        
+
         LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals(metadata, entry.getMetadata());
     }
@@ -91,7 +91,7 @@ class LoggerTest {
     void testLevelChecking() {
         LoggerConfig config = new LoggerConfig().setLevel(LogLevel.WARN);
         logger.setConfig(config);
-        
+
         assertFalse(logger.isDebugEnabled());
         assertFalse(logger.isInfoEnabled());
         assertTrue(logger.isWarnEnabled());

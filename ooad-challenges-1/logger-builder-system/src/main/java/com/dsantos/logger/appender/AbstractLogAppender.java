@@ -2,12 +2,8 @@ package com.dsantos.logger.appender;
 
 import com.dsantos.logger.config.LoggerConfig;
 import com.dsantos.logger.model.LogEntry;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -15,7 +11,7 @@ public abstract class AbstractLogAppender implements LogAppender {
     protected LoggerConfig config;
     protected final String name;
     protected final AtomicBoolean closed = new AtomicBoolean(false);
-    
+
     // Async support
     private BlockingQueue<LogEntry> asyncBuffer;
     private ExecutorService asyncExecutor;
@@ -28,7 +24,7 @@ public abstract class AbstractLogAppender implements LogAppender {
     @Override
     public void configure(LoggerConfig config) {
         this.config = config;
-        
+
         if (config.isAsyncMode()) {
             setupAsyncMode();
         }
@@ -41,22 +37,22 @@ public abstract class AbstractLogAppender implements LogAppender {
             t.setDaemon(true);
             return t;
         });
-        
+
         // Start async writer
         asyncExecutor.submit(this::asyncWriter);
-        
+
         // Setup periodic flush
         this.flushScheduler = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread t = new Thread(r, name + "-flush-scheduler");
             t.setDaemon(true);
             return t;
         });
-        
+
         flushScheduler.scheduleAtFixedRate(
-            this::flush, 
-            config.getAsyncFlushInterval(), 
-            config.getAsyncFlushInterval(), 
-            TimeUnit.MILLISECONDS
+                this::flush,
+                config.getAsyncFlushInterval(),
+                config.getAsyncFlushInterval(),
+                TimeUnit.MILLISECONDS
         );
     }
 

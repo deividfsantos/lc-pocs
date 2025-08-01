@@ -99,7 +99,7 @@ public class LogEntry {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s: %s", 
-            timestamp, level, logger != null ? logger : "UNKNOWN", message);
+        return String.format("[%s] %s - %s: %s",
+                timestamp, level, logger != null ? logger : "UNKNOWN", message);
     }
 }
