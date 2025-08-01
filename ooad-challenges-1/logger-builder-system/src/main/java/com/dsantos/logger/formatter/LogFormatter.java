@@ -3,12 +3,12 @@ package com.dsantos.logger.formatter;
 import com.dsantos.logger.model.LogEntry;
 
 /**
- * Interface para formatadores de log
+ * Interface for log formatters
  */
 public interface LogFormatter {
 
     /**
-     * Formata uma entrada de log em string
+     * Formats a log entry into a string
      */
     String format(LogEntry logEntry);
 }

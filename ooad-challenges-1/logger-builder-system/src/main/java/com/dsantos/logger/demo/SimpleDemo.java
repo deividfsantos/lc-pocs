@@ -8,35 +8,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Demonstração simples do sistema de logging
+ * Simple demonstration of the logging system
  */
 public class SimpleDemo {
 
     public static void main(String[] args) {
-        System.out.println("=== DEMONSTRAÇÃO DO SISTEMA DE LOGGER BUILDER ROUTER ===\n");
+        System.out.println("=== LOGGER BUILDER ROUTER SYSTEM DEMONSTRATION ===\n");
 
-        // 1. Logger básico para console
-        System.out.println("1. Logger básico para console:");
+        // 1. Basic console logger
+        System.out.println("1. Basic console logger:");
         Logger consoleLogger = LoggerBuilder.simple("ConsoleDemo");
-        consoleLogger.info("Sistema iniciado com sucesso!");
-        consoleLogger.warn("Atenção: Configuração padrão sendo usada");
-        consoleLogger.error("Erro simulado para demonstração");
+        consoleLogger.info("System started successfully!");
+        consoleLogger.warn("Warning: Default configuration being used");
+        consoleLogger.error("Simulated error for demonstration");
         consoleLogger.close();
 
-        // 2. Logger para arquivo com rotação
-        System.out.println("\n2. Logger para arquivo:");
+        // 2. File logger with rotation
+        System.out.println("\n2. File logger:");
         Logger fileLogger = LoggerBuilder.create("FileDemo")
                 .level(LogLevel.DEBUG)
                 .file("demo.log", "1MB", 3)
                 .build();
 
-        fileLogger.debug("Log de debug salvo no arquivo");
-        fileLogger.info("Operação realizada com sucesso");
+        fileLogger.debug("Debug log saved to file");
+        fileLogger.info("Operation completed successfully");
         fileLogger.flush();
         fileLogger.close();
 
-        // 3. Logger assíncrono para alta performance
-        System.out.println("\n3. Logger assíncrono:");
+        // 3. Asynchronous logger for high performance
+        System.out.println("\n3. Asynchronous logger:");
         Logger asyncLogger = LoggerBuilder.create("AsyncDemo")
                 .async()
                 .asyncBufferSize(100)
@@ -44,29 +44,29 @@ public class SimpleDemo {
                 .build();
 
         for (int i = 1; i <= 5; i++) {
-            asyncLogger.info("Processando item %d de 5", i);
+            asyncLogger.info("Processing item %d of 5", i);
         }
         asyncLogger.flush();
         asyncLogger.close();
 
-        // 4. Logger com múltiplos destinos e filtros
-        System.out.println("\n4. Logger com múltiplos destinos:");
+        // 4. Logger with multiple destinations and filters
+        System.out.println("\n4. Logger with multiple destinations:");
         Logger multiLogger = LoggerBuilder.create("MultiDemo")
                 .level(LogLevel.DEBUG)
-                .console(LogLevel.WARN)  // Console só para warnings+
-                .file("multi-all.log")   // Arquivo para todos
-                .file("multi-errors.log", LogLevel.ERROR) // Arquivo só para errors
+                .console(LogLevel.WARN)  // Console only for warnings+
+                .file("multi-all.log")   // File for all
+                .file("multi-errors.log", LogLevel.ERROR) // File only for errors
                 .build();
 
-        multiLogger.debug("Debug - só vai para multi-all.log");
-        multiLogger.info("Info - só vai para multi-all.log");
-        multiLogger.warn("Warning - vai para console e multi-all.log");
-        multiLogger.error("Error - vai para console, multi-all.log e multi-errors.log");
+        multiLogger.debug("Debug - only goes to multi-all.log");
+        multiLogger.info("Info - only goes to multi-all.log");
+        multiLogger.warn("Warning - goes to console and multi-all.log");
+        multiLogger.error("Error - goes to console, multi-all.log and multi-errors.log");
         multiLogger.flush();
         multiLogger.close();
 
-        // 5. Logger com metadata estruturada
-        System.out.println("\n5. Logger com metadata:");
+        // 5. Logger with structured metadata
+        System.out.println("\n5. Logger with metadata:");
         Logger metadataLogger = LoggerBuilder.create("MetadataDemo")
                 .pattern("[%timestamp] [%level] %logger - %message")
                 .console()
@@ -77,21 +77,21 @@ public class SimpleDemo {
         userContext.put("sessionId", "abc-def-ghi");
         userContext.put("action", "user_login");
 
-        metadataLogger.info("Usuário fez login", userContext);
+        metadataLogger.info("User logged in", userContext);
 
-        // Exemplo com exceção
+        // Example with exception
         try {
-            throw new RuntimeException("Erro de exemplo");
+            throw new RuntimeException("Example error");
         } catch (Exception e) {
-            metadataLogger.error("Falha na operação", e);
+            metadataLogger.error("Operation failed", e);
         }
 
         metadataLogger.close();
 
-        System.out.println("\n=== DEMONSTRAÇÃO CONCLUÍDA ===");
-        System.out.println("Arquivos de log criados: demo.log, multi-all.log, multi-errors.log");
+        System.out.println("\n=== DEMONSTRATION COMPLETED ===");
+        System.out.println("Log files created: demo.log, multi-all.log, multi-errors.log");
 
-        // Aguardar processamento assíncrono
+        // Wait for asynchronous processing
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

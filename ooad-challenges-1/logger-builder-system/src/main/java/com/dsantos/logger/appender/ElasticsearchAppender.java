@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Appender que envia logs para Elasticsearch
+ * Appender that sends logs to Elasticsearch
  */
 public class ElasticsearchAppender extends AbstractLogAppender {
     private static final String HOST_PROPERTY = "elasticsearch.host";

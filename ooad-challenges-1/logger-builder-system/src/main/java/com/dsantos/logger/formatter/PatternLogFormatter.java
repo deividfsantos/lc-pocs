@@ -7,7 +7,7 @@ import java.io.StringWriter;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Formatador que usa padrões para formatar logs
+ * Formatter that uses patterns to format logs
  */
 public class PatternLogFormatter implements LogFormatter {
     private static final DateTimeFormatter DEFAULT_DATE_FORMAT =

@@ -8,30 +8,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Exemplos de uso do sistema de logging
+ * Examples of using the logging system
  */
 public class LoggerExamples {
 
     public static void main(String[] args) {
-        // Exemplo 1: Logger simples para console
+        // Example 1: Simple console logger
         simpleConsoleExample();
 
-        // Exemplo 2: Logger para arquivo
+        // Example 2: File logger
         fileLoggerExample();
 
-        // Exemplo 3: Logger assíncrono
+        // Example 3: Asynchronous logger
         asyncLoggerExample();
 
-        // Exemplo 4: Logger com múltiplos destinos
+        // Example 4: Logger with multiple destinations
         multiAppenderExample();
 
-        // Exemplo 5: Logger para Elasticsearch
+        // Example 5: Elasticsearch logger
         elasticsearchExample();
 
-        // Exemplo 6: Logger completo com todos os destinos
+        // Example 6: Complete logger with all destinations
         fullLoggerExample();
 
-        // Aguardar um pouco para processamento assíncrono
+        // Wait a bit for asynchronous processing
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -40,36 +40,36 @@ public class LoggerExamples {
     }
 
     private static void simpleConsoleExample() {
-        System.out.println("=== Exemplo 1: Logger Simples Console ===");
+        System.out.println("=== Example 1: Simple Console Logger ===");
 
         Logger logger = LoggerBuilder.simple("SimpleLogger");
 
-        logger.info("Aplicação iniciada");
-        logger.debug("Debug message - não aparecerá (nível padrão é INFO)");
-        logger.warn("Aviso importante");
-        logger.error("Erro simulado");
+        logger.info("Application started");
+        logger.debug("Debug message - won't appear (default level is INFO)");
+        logger.warn("Important warning");
+        logger.error("Simulated error");
 
         logger.close();
     }
 
     private static void fileLoggerExample() {
-        System.out.println("\n=== Exemplo 2: Logger para Arquivo ===");
+        System.out.println("\n=== Example 2: File Logger ===");
 
         Logger logger = LoggerBuilder.create("FileLogger")
                 .level(LogLevel.DEBUG)
                 .file("logs/application.log", "5MB", 3)
                 .build();
 
-        logger.debug("Debug message salva no arquivo");
-        logger.info("Informação salva no arquivo");
-        logger.error("Erro salvo no arquivo");
+        logger.debug("Debug message saved to file");
+        logger.info("Information saved to file");
+        logger.error("Error saved to file");
 
         logger.flush();
         logger.close();
     }
 
     private static void asyncLoggerExample() {
-        System.out.println("\n=== Exemplo 3: Logger Assíncrono ===");
+        System.out.println("\n=== Example 3: Asynchronous Logger ===");
 
         Logger logger = LoggerBuilder.create("AsyncLogger")
                 .async()
@@ -79,9 +79,9 @@ public class LoggerExamples {
                 .file("logs/async.log")
                 .build();
 
-        // Simular múltiplas mensagens rapidamente
+        // Simulate multiple messages quickly
         for (int i = 0; i < 10; i++) {
-            logger.info("Mensagem assíncrona número %d", i);
+            logger.info("Asynchronous message number %d", i);
         }
 
         logger.flush();
@@ -89,46 +89,46 @@ public class LoggerExamples {
     }
 
     private static void multiAppenderExample() {
-        System.out.println("\n=== Exemplo 4: Múltiplos Destinos ===");
+        System.out.println("\n=== Example 4: Multiple Destinations ===");
 
         Logger logger = LoggerBuilder.create("MultiLogger")
                 .level(LogLevel.DEBUG)
-                .console(LogLevel.WARN)  // Console apenas para warnings e errors
-                .file("logs/all.log")    // Arquivo para todos os logs
-                .file("logs/errors.log", LogLevel.ERROR) // Arquivo só para errors
+                .console(LogLevel.WARN)  // Console only for warnings and errors
+                .file("logs/all.log")    // File for all logs
+                .file("logs/errors.log", LogLevel.ERROR) // File only for errors
                 .build();
 
-        logger.debug("Debug - só no arquivo all.log");
-        logger.info("Info - só no arquivo all.log");
-        logger.warn("Warning - console e arquivo all.log");
-        logger.error("Error - console, all.log e errors.log");
+        logger.debug("Debug - only in all.log file");
+        logger.info("Info - only in all.log file");
+        logger.warn("Warning - console and all.log file");
+        logger.error("Error - console, all.log and errors.log");
 
         logger.flush();
         logger.close();
     }
 
     private static void elasticsearchExample() {
-        System.out.println("\n=== Exemplo 5: Elasticsearch ===");
+        System.out.println("\n=== Example 5: Elasticsearch ===");
 
         Logger logger = LoggerBuilder.create("ElkLogger")
                 .elasticsearch("localhost", 9200, "app-logs-2025")
-                .console() // Também no console para ver o que está sendo enviado
+                .console() // Also to console to see what's being sent
                 .build();
 
-        // Log com metadata
+        // Log with metadata
         Map<String, Object> metadata = new HashMap<>();
         metadata.put("userId", "12345");
         metadata.put("action", "login");
         metadata.put("ip", "192.168.1.100");
 
-        logger.info("Usuário fez login", metadata);
-        logger.error("Falha na autenticação", metadata);
+        logger.info("User logged in", metadata);
+        logger.error("Authentication failure", metadata);
 
-        // Log com exceção
+        // Log with exception
         try {
-            throw new RuntimeException("Erro simulado");
+            throw new RuntimeException("Simulated error");
         } catch (Exception e) {
-            logger.error("Exceção capturada", e);
+            logger.error("Exception caught", e);
         }
 
         logger.flush();
@@ -136,7 +136,7 @@ public class LoggerExamples {
     }
 
     private static void fullLoggerExample() {
-        System.out.println("\n=== Exemplo 6: Logger Completo ===");
+        System.out.println("\n=== Example 6: Complete Logger ===");
 
         Logger logger = LoggerBuilder.create("FullLogger")
                 .level(LogLevel.DEBUG)
@@ -150,18 +150,18 @@ public class LoggerExamples {
                 .elasticsearch("localhost", 9200, "full-logs", LogLevel.INFO, 10)
                 .build();
 
-        logger.debug("Aplicação inicializando...");
-        logger.info("Configuração carregada");
-        logger.warn("Configuração de cache não encontrada, usando padrão");
-        logger.error("Falha ao conectar com banco de dados");
+        logger.debug("Application initializing...");
+        logger.info("Configuration loaded");
+        logger.warn("Cache configuration not found, using default");
+        logger.error("Failed to connect to database");
 
-        // Log estruturado
+        // Structured log
         Map<String, Object> context = new HashMap<>();
         context.put("operation", "user_registration");
         context.put("duration_ms", 150);
         context.put("success", true);
 
-        logger.info("Operação concluída", context);
+        logger.info("Operation completed", context);
 
         logger.flush();
         logger.close();

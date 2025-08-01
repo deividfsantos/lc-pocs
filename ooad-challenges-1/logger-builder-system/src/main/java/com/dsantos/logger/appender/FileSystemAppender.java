@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 /**
- * Appender que escreve logs para o sistema de arquivos
+ * Appender that writes logs to the file system
  */
 public class FileSystemAppender extends AbstractLogAppender {
     private static final String DEFAULT_FILE_PATH = "application.log";

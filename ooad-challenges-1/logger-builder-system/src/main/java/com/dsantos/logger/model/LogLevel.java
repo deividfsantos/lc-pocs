@@ -1,7 +1,7 @@
 package com.dsantos.logger.model;
 
 /**
- * Níveis de log disponíveis no sistema
+ * Log levels available in the system
  */
 public enum LogLevel {
     TRACE(0),

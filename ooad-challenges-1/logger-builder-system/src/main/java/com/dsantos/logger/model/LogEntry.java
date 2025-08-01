@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
- * Representa uma entrada de log com todas as informações necessárias
+ * Represents a log entry with all necessary information
  */
 public class LogEntry {
     private final String message;

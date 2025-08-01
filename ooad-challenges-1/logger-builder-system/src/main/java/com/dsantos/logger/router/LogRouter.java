@@ -10,13 +10,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 
 /**
- * Roteador que decide para quais appenders enviar cada log
+ * Router that decides which appenders to send each log to
  */
 public class LogRouter {
     private final List<AppenderRule> rules = new CopyOnWriteArrayList<>();
 
     /**
-     * Adiciona uma regra de roteamento
+     * Adds a routing rule
      */
     public LogRouter addRule(LogAppender appender, Predicate<LogEntry> condition) {
         rules.add(new AppenderRule(appender, condition));
@@ -24,21 +24,21 @@ public class LogRouter {
     }
 
     /**
-     * Adiciona um appender que recebe todos os logs
+     * Adds an appender that receives all logs
      */
     public LogRouter addAppender(LogAppender appender) {
         return addRule(appender, entry -> true);
     }
 
     /**
-     * Adiciona um appender com filtro de nível mínimo
+     * Adds an appender with minimum level filter
      */
     public LogRouter addAppender(LogAppender appender, LogLevel minLevel) {
         return addRule(appender, entry -> entry.getLevel().isEnabled(minLevel));
     }
 
     /**
-     * Adiciona um appender com filtro de logger name
+     * Adds an appender with logger name filter
      */
     public LogRouter addAppender(LogAppender appender, String loggerNamePattern) {
         return addRule(appender, entry -> {
@@ -48,7 +48,7 @@ public class LogRouter {
     }
 
     /**
-     * Roteia uma entrada de log para os appenders apropriados
+     * Routes a log entry to the appropriate appenders
      */
     public void route(LogEntry logEntry) {
         for (AppenderRule rule : rules) {
@@ -65,7 +65,7 @@ public class LogRouter {
     }
 
     /**
-     * Força flush em todos os appenders
+     * Forces flush on all appenders
      */
     public void flush() {
         for (AppenderRule rule : rules) {
@@ -79,7 +79,7 @@ public class LogRouter {
     }
 
     /**
-     * Fecha todos os appenders
+     * Closes all appenders
      */
     public void close() {
         for (AppenderRule rule : rules) {
@@ -94,7 +94,7 @@ public class LogRouter {
     }
 
     /**
-     * Retorna todos os appenders registrados
+     * Returns all registered appenders
      */
     public List<LogAppender> getAppenders() {
         List<LogAppender> appenders = new ArrayList<>();

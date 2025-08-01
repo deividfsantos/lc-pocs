@@ -1,7 +1,6 @@
 package com.dsantos.logger.builder;
 
 import com.dsantos.logger.appender.ConsoleAppender;
-import com.dsantos.logger.appender.ElasticsearchAppender;
 import com.dsantos.logger.appender.FileSystemAppender;
 import com.dsantos.logger.appender.LogAppender;
 import com.dsantos.logger.config.LoggerConfig;
@@ -105,6 +104,7 @@ public class LoggerBuilder {
         return this;
     }
 
+    /* Elasticsearch appender temporariamente comentado devido a problemas de dependência
     public LoggerBuilder elasticsearch(String host, int port, String index) {
         ElasticsearchAppender appender = new ElasticsearchAppender();
         
@@ -148,6 +148,7 @@ public class LoggerBuilder {
         router.addAppender(appender, minLevel);
         return this;
     }
+    */
 
     public LoggerBuilder customAppender(LogAppender appender) {
         appender.configure(config);
@@ -215,6 +216,7 @@ public class LoggerBuilder {
                 .build();
     }
 
+    /* Static methods temporarily commented due to dependency issues
     public static Logger elkLogger(String name, String host, int port, String index) {
         return create(name)
             .elasticsearch(host, port, index)
@@ -228,4 +230,5 @@ public class LoggerBuilder {
             .elasticsearch(elkHost, elkPort, elkIndex, LogLevel.INFO, 50)
             .build();
     }
+    */
 }

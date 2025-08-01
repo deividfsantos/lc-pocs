@@ -35,7 +35,7 @@ class LoggerTest {
         logger.info("Test message");
 
         assertEquals(1, testAppender.getLogEntries().size());
-        LogEntry entry = testAppender.getLogEntries().getFirst();
+        LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals("Test message", entry.getMessage());
         assertEquals(LogLevel.INFO, entry.getLevel());
         assertEquals("TestLogger", entry.getLogger());
@@ -61,7 +61,7 @@ class LoggerTest {
     void testMessageFormatting() {
         logger.info("User %s logged in with ID %d", "john", 123);
 
-        LogEntry entry = testAppender.getLogEntries().getFirst();
+        LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals("User john logged in with ID 123", entry.getMessage());
     }
 
@@ -70,7 +70,7 @@ class LoggerTest {
         RuntimeException ex = new RuntimeException("Test exception");
         logger.error("An error occurred", ex);
 
-        LogEntry entry = testAppender.getLogEntries().getFirst();
+        LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals("An error occurred", entry.getMessage());
         assertEquals(ex, entry.getException());
     }
@@ -83,7 +83,7 @@ class LoggerTest {
 
         logger.info("User action", metadata);
 
-        LogEntry entry = testAppender.getLogEntries().getFirst();
+        LogEntry entry = testAppender.getLogEntries().get(0);
         assertEquals(metadata, entry.getMetadata());
     }
 
