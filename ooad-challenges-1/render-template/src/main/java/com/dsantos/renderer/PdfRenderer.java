@@ -1,4 +1,15 @@
 package com.dsantos.renderer;
 
-public class PdfRenderer {
+import com.dsantos.Template;
+
+public class PdfRenderer implements TemplateRenderer{
+    @Override
+    public String render(Template template) {
+        return "";
+    }
+
+    @Override
+    public String getFileExtension() {
+        return "";
+    }
 }

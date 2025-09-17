@@ -18,5 +18,6 @@ public class TemplateEngine {
         this.renderers = new HashMap<>();
         renderers.put(RenderFormat.HTML, new HtmlRenderer());
         renderers.put(RenderFormat.CSV, new CsvRenderer());
+        renderers.put(RenderFormat.PDF, new HtmlRenderer());
     }
 }
