@@ -2,6 +2,7 @@ package com.dsantos;
 
 import com.dsantos.renderer.CsvRenderer;
 import com.dsantos.renderer.HtmlRenderer;
+import com.dsantos.renderer.PdfRenderer;
 import com.dsantos.renderer.TemplateRenderer;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class TemplateEngine {
         this.renderers = new HashMap<>();
         renderers.put(RenderFormat.HTML, new HtmlRenderer());
         renderers.put(RenderFormat.CSV, new CsvRenderer());
-        renderers.put(RenderFormat.PDF, new HtmlRenderer());
+        renderers.put(RenderFormat.PDF, new PdfRenderer());
     }
 
     public String render(Template template, RenderFormat format) {

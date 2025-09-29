@@ -2,6 +2,8 @@ package com.dsantos.renderer;
 
 import com.dsantos.Template;
 
+import java.util.Map;
+
 public class PdfRenderer implements TemplateRenderer {
     
     @Override
@@ -16,8 +18,8 @@ public class PdfRenderer implements TemplateRenderer {
         pdf.append("/Contents 4 0 R >>\nendobj\n");
     
         StringBuilder content = new StringBuilder();
-        content.append("BT /F1 12 Tf 50 750 Td (").append(template.getName()).append(") Tj ");
-        for (Map.Entry<String, Object> entry : template.getData().entrySet()) {
+        content.append("BT /F1 12 Tf 50 750 Td (").append(template.name()).append(") Tj ");
+        for (Map.Entry<String, Object> entry : template.data().entrySet()) {
             content.append("0 -15 Td (").append(entry.getKey()).append(": ").append(entry.getValue()).append(") Tj ");
         }
         content.append("ET");
