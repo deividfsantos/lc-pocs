@@ -20,4 +20,12 @@ public class TemplateEngine {
         renderers.put(RenderFormat.CSV, new CsvRenderer());
         renderers.put(RenderFormat.PDF, new HtmlRenderer());
     }
+
+    public String render(Template template, RenderFormat format) {
+        TemplateRenderer renderer = renderers.get(format);
+        if (renderer == null) {
+            throw new IllegalArgumentException("Unsupported format: " + format);
+        }
+        return renderer.render(template);
+    }
 }

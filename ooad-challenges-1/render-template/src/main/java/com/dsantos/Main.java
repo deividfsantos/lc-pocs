@@ -1,8 +1,8 @@
 package com.dsantos;
 
-import com.dsantos.template.Template;
-import com.dsantos.template.TemplateEngine;
-import com.dsantos.template.TemplateEngine.RenderFormat;
+import com.dsantos.Template;
+import com.dsantos.TemplateEngine;
+import com.dsantos.TemplateEngine.RenderFormat;
 
 import java.util.HashMap;
 import java.util.Map;
