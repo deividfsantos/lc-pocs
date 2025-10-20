@@ -1,4 +1,4 @@
 package com.dsantos;
 
-public class Shipment {
+public record Shipment(double volume, double weight, String destination) {
 }
