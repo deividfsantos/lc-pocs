@@ -13,8 +13,8 @@ public class BoatTransportation implements TransportationStrategy {
     public BigDecimal calculateFreight(Shipment shipment) {
         // Simulate market fluctuation
         BigDecimal marketMultiplier = new BigDecimal("0.8").add(BigDecimal.valueOf(Math.random() * 0.5)); //0.8 to 1.3
-        BigDecimal weightCost = null;
-        BigDecimal volumeCost = null;
+        BigDecimal weightCost = shipment.weight().multiply(BASE_RATE);
+        BigDecimal volumeCost = shipment.volume().multiply(VOLUME_RATE);
         return weightCost.add(volumeCost).multiply(marketMultiplier);
     }
 

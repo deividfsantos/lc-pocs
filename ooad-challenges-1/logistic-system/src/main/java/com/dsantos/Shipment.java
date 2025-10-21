@@ -1,4 +1,6 @@
 package com.dsantos;
 
-public record Shipment(double volume, double weight, String destination) {
+import java.math.BigDecimal;
+
+public record Shipment(BigDecimal volume, BigDecimal weight, String destination) {
 }
