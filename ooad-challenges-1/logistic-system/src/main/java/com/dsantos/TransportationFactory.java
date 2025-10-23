@@ -1,18 +1,14 @@
 package com.dsantos;
 
-import com.dsantos.transportation.BoatTransportation;
-import com.dsantos.transportation.RailTransportation;
-import com.dsantos.transportation.TransportationStrategy;
-import com.dsantos.transportation.TruckTransportation;
+import com.dsantos.transportation.*;
 
 public class TransportationFactory {
 
-    public static TransportationStrategy getTransportationStrategy(String type) {
-        return switch (type.toLowerCase()) {
-            case "truck" -> new TruckTransportation();
-            case "rail" -> new RailTransportation();
-            case "boat" -> new BoatTransportation();
-            default -> throw new IllegalArgumentException("Unknown transportation type: " + type);
+    public static TransportationStrategy getTransportationStrategy(TransportationType type) {
+        return switch (type) {
+            case TransportationType.TRUCK -> new TruckTransportation();
+            case TransportationType.RAIL -> new RailTransportation();
+            case TransportationType.BOAT -> new BoatTransportation();
         };
     }
 }
