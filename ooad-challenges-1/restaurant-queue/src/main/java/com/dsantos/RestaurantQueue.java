@@ -3,17 +3,17 @@ package com.dsantos;
 import java.util.*;
 
 public class RestaurantQueue {
-    private final Queue<Dish> queue = new LinkedList<>();
+    private final Queue<Dishes> queue = new LinkedList<>();
 
     public RestaurantQueue() {
     }
 
-    public synchronized void enqueue(Dish dish) {
+    public synchronized void enqueue(Dishes dish) {
         Objects.requireNonNull(dish, "dish required");
         queue.add(dish);
     }
 
-    public synchronized Dish dequeue() {
+    public synchronized Dishes dequeue() {
         return queue.poll();
     }
 
@@ -25,7 +25,7 @@ public class RestaurantQueue {
         if (queue.isEmpty()) return Collections.emptyList();
         List<DishEstimate> out = new ArrayList<>(queue.size());
         int accumulated = 0; // minutes until the current dish starts
-        for (Dish d : queue) {
+        for (Dishes d : queue) {
             int startsIn = accumulated;
             int readyIn = accumulated + d.prepMinutes();
             out.add(new DishEstimate(d, startsIn, readyIn));
@@ -34,8 +34,8 @@ public class RestaurantQueue {
         return Collections.unmodifiableList(out);
     }
 
-    public record DishEstimate(Dish dish, int startsInMinutes, int readyInMinutes) {
-        public DishEstimate(Dish dish, int startsInMinutes, int readyInMinutes) {
+    public record DishEstimate(Dishes dish, int startsInMinutes, int readyInMinutes) {
+        public DishEstimate(Dishes dish, int startsInMinutes, int readyInMinutes) {
             this.dish = Objects.requireNonNull(dish);
             if (startsInMinutes < 0 || readyInMinutes < 0) throw new IllegalArgumentException("times must be >= 0");
             if (readyInMinutes < startsInMinutes) throw new IllegalArgumentException("readyIn must be >= startsIn");

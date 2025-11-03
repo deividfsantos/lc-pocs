@@ -11,38 +11,38 @@ public class RestaurantQueueTest {
     @Test
     void estimatesBeforeAndAfterDequeue() {
         RestaurantQueue q = new RestaurantQueue();
-        q.enqueue(new Dish("A", 5));
-        q.enqueue(new Dish("B", 10));
-        q.enqueue(new Dish("C", 20));
+        q.enqueue(Dishes.SALAD);
+        q.enqueue(Dishes.SOUP);
+        q.enqueue(Dishes.STEAK);
 
         List<RestaurantQueue.DishEstimate> estimates = q.estimates();
         assertEquals(3, estimates.size());
 
-        assertEquals("A", estimates.get(0).dish().name());
+        assertEquals(Dishes.SALAD, estimates.get(0).dish());
         assertEquals(0, estimates.get(0).startsInMinutes());
         assertEquals(5, estimates.get(0).readyInMinutes());
 
-        assertEquals("B", estimates.get(1).dish().name());
+        assertEquals(Dishes.SOUP, estimates.get(1).dish());
         assertEquals(5, estimates.get(1).startsInMinutes());
         assertEquals(15, estimates.get(1).readyInMinutes());
 
-        assertEquals("C", estimates.get(2).dish().name());
+        assertEquals(Dishes.STEAK, estimates.get(2).dish());
         assertEquals(15, estimates.get(2).startsInMinutes());
         assertEquals(35, estimates.get(2).readyInMinutes());
 
         // dequeue first
-        Dish served = q.dequeue();
+        Dishes served = q.dequeue();
         assertNotNull(served);
-        assertEquals("A", served.name());
+        assertEquals(Dishes.SALAD, served);
 
         List<RestaurantQueue.DishEstimate> after = q.estimates();
         assertEquals(2, after.size());
 
-        assertEquals("B", after.get(0).dish().name());
+        assertEquals(Dishes.SOUP, after.getFirst().dish());
         assertEquals(0, after.get(0).startsInMinutes());
         assertEquals(10, after.get(0).readyInMinutes());
 
-        assertEquals("C", after.get(1).dish().name());
+        assertEquals(Dishes.STEAK, after.get(1).dish());
         assertEquals(10, after.get(1).startsInMinutes());
         assertEquals(30, after.get(1).readyInMinutes());
     }
@@ -56,4 +56,3 @@ public class RestaurantQueueTest {
         assertNull(q.dequeue());
     }
 }
-
