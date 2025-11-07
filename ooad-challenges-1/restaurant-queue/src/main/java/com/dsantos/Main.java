@@ -4,18 +4,13 @@ public class Main {
     static void main() {
         RestaurantQueue queue = new RestaurantQueue();
 
-//        queue.enqueue(new Dish("Salad", 5));
-//        queue.enqueue(new Dish("Soup", 10));
-//        queue.enqueue(new Dish("Steak", 20));
-//        queue.enqueue(new Dish("Fries", 8));
-
-        queue.enqueue(Dishes.SALAD);
-        queue.enqueue(Dishes.SOUP);
-        queue.enqueue(Dishes.STEAK);
-        queue.enqueue(Dishes.FRIES);
+        queue.enqueue(Dish.SALAD);
+        queue.enqueue(Dish.SOUP);
+        queue.enqueue(Dish.STEAK);
+        queue.enqueue(Dish.FRIES);
 
         System.out.println("Current queue with estimates (startsIn / readyIn):");
-        for (RestaurantQueue.DishEstimate est : queue.estimates()) {
+        for (DishEstimate est : queue.estimates()) {
             System.out.println(" - " + est);
         }
 
@@ -24,7 +19,7 @@ public class Main {
 
         System.out.println();
         System.out.println("Updated queue with estimates:");
-        for (RestaurantQueue.DishEstimate est : queue.estimates()) {
+        for (DishEstimate est : queue.estimates()) {
             System.out.println(" - " + est);
         }
     }
