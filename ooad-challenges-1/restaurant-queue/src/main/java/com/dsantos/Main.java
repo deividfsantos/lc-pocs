@@ -6,6 +6,7 @@ public class Main {
 
         queue.enqueue(Dish.SALAD);
         queue.enqueue(Dish.SOUP);
+        queue.enqueue(Dish.SOUP);
         queue.enqueue(Dish.STEAK);
         queue.enqueue(Dish.FRIES);
 
