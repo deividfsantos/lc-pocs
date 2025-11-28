@@ -1,4 +1,4 @@
-package com.dsantos;
+package com.dsantos.model;
 
 import java.math.BigDecimal;
 
