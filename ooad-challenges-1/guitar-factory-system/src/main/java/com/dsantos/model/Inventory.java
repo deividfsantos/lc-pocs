@@ -21,4 +21,14 @@ public class Inventory {
                 .filter(guitar -> guitar.serialNumber().equals(serialNumber))
                 .findFirst();
     }
+
+    public List<Guitar> search(GuitarSpec searchSpec) {
+        return guitars.stream()
+                .filter(guitar -> guitar.spec().equals(searchSpec))
+                .toList();
+    }
+
+    public List<Guitar> getAllGuitars() {
+        return new ArrayList<>(guitars);
+    }
 }
