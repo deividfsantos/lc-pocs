@@ -1,4 +1,7 @@
-package com.dsantos.model;
+package com.dsantos;
+
+import com.dsantos.model.Guitar;
+import com.dsantos.model.GuitarSpec;
 
 import java.util.ArrayList;
 import java.util.List;

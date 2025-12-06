@@ -1,17 +1,28 @@
 package com.dsantos;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.dsantos.model.*;
+
+import java.math.BigDecimal;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Inventory inventory = new Inventory();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        Guitar guitar1 = GuitarFactory.createGuitar(Builder.FENDER, Model.SG, Wood.ROSEWOOD, Wood.MAHOGANY, 6, BigDecimal.valueOf(16020.23));
+        Guitar guitar2 = GuitarFactory.createGuitar(Builder.PRS, Model.LES_PAUL, Wood.ROSEWOOD, Wood.ROSEWOOD, 6, BigDecimal.valueOf(16020.23));
+        Guitar guitar3 = GuitarFactory.createGuitar(Builder.GIBSON, Model.SG, Wood.SITKA, Wood.MAHOGANY, 6, BigDecimal.valueOf(16020.23));
+        Guitar guitar4 = GuitarFactory.createGuitar(Builder.MARTIN, Model.STRATOCASTER, Wood.ROSEWOOD, Wood.MAHOGANY, 6, BigDecimal.valueOf(16020.23));
+        inventory.addGuitar(guitar1);
+        inventory.addGuitar(guitar2);
+        inventory.addGuitar(guitar3);
+        inventory.addGuitar(guitar4);
+
+        inventory.getAllGuitars().forEach(guitar -> {
+            System.out.println("Guitar: " + guitar);
+        });
+
+        inventory.search(new GuitarSpec(null, Model.SG, null, null, 6)).forEach(guitar -> {
+            System.out.println("Found Guitar: " + guitar);
+        });
     }
 }
