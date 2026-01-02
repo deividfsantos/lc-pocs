@@ -34,4 +34,8 @@ public class Venue {
                 .filter(seat -> seat.number() == seatNumber)
                 .findFirst();
     }
+
+    public int getCapacity(Zone zone) {
+        return zones.getOrDefault(zone, Collections.emptyList()).size();
+    }
 }
