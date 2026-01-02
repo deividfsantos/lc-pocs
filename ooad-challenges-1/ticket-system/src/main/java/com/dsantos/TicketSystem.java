@@ -1,5 +1,6 @@
 package com.dsantos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,5 +56,11 @@ public class TicketSystem {
 
     public int getTotalTicketsSold(Show show) {
         return show.getTickets().size();
+    }
+
+    public BigDecimal getTotalRevenue(Show show) {
+        return show.getTickets().stream()
+                .map(Ticket::price)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
