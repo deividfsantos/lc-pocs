@@ -38,4 +38,8 @@ public class Venue {
     public int getCapacity(Zone zone) {
         return zones.getOrDefault(zone, Collections.emptyList()).size();
     }
+
+    public List<Seat> getSeatsInZone(Zone zone) {
+        return List.copyOf(zones.getOrDefault(zone, Collections.emptyList()));
+    }
 }

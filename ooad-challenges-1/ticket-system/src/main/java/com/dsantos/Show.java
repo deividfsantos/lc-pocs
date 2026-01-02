@@ -1,20 +1,20 @@
 package com.dsantos;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Show {
     private final String name;
     private final Venue venue;
     private final LocalDateTime dateTime;
-    private final Set<Seat> soldSeats;
+    private final List<Ticket> tickets;
 
     public Show(String name, Venue venue, LocalDateTime dateTime) {
         this.name = name;
         this.venue = venue;
         this.dateTime = dateTime;
-        this.soldSeats = new HashSet<>();
+        this.tickets = new ArrayList<>();
     }
 
     public String getName() {
@@ -29,21 +29,21 @@ public class Show {
         return dateTime;
     }
 
-    public Set<Seat> getSoldSeats() {
-        return soldSeats;
+    public boolean isSeatAvailable(Seat seat) {
+        return tickets.stream().noneMatch(ticket -> ticket.seat().equals(seat));
     }
 
-    public boolean reserveSeat(Seat seat) {
-        if (soldSeats.contains(seat)) {
-            return false;
-        }
-        return soldSeats.add(seat);
+    public List<Seat> getAvailableSeats(Zone zone) {
+        return venue.getSeatsInZone(zone).stream()
+                .filter(this::isSeatAvailable)
+                .toList();
     }
 
-    public int getAvailableSeatsCount(Zone zone) {
-        long soldInZone = soldSeats.stream()
-                .filter(seat -> seat.zone() == zone)
-                .count();
-        return venue.getCapacity(zone) - (int) soldInZone;
+    void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+    }
+
+    public List<Ticket> getTickets() {
+        return List.copyOf(tickets);
     }
 }
