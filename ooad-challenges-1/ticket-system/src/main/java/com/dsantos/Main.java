@@ -1,7 +1,39 @@
 package com.dsantos;
 
-public class Main {
-    static void main(String[] args) {
+import java.time.LocalDateTime;
+import java.util.Map;
 
+public class Main {
+    public static void main(String[] args) {
+        var arena = new Venue("City Arena", Map.of(
+                Zone.VIP, 20, Zone.PREMIUM, 50, Zone.REGULAR, 100, Zone.BALCONY, 80
+        ));
+
+        var rockConcert = new Show("Rock Concert", arena, LocalDateTime.of(2025, 3, 15, 20, 0));
+        var jazzNight = new Show("Jazz Night", arena, LocalDateTime.of(2025, 3, 20, 19, 30));
+
+        var system = new TicketSystem();
+        system.addShow(rockConcert);
+        system.addShow(jazzNight);
+
+        // Sell through the facade
+        system.sellTicket(rockConcert, Zone.VIP, 1);
+        system.sellTicket(rockConcert, Zone.VIP, 5);
+        system.sellTickets(rockConcert, Zone.REGULAR, 5);
+        system.sellTickets(jazzNight, Zone.PREMIUM, 3);
+
+        // Try duplicate (should fail)
+        system.sellTicket(rockConcert, Zone.VIP, 1);
+
+        // Summary
+        System.out.println("\n=== Summary ===");
+        System.out.println("Total tickets: " + system.getTotalTicketsSold());
+        System.out.printf("Total revenue: $%.2f%n", system.getTotalRevenue());
+
+        System.out.println("\nPer show:");
+        for (var show : system.getShows()) {
+            System.out.printf("  %s: %d tickets, $%.0f%n",
+                show.getName(), show.getTickets().size(), show.getRevenue());
+        }
     }
 }
