@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 public enum Zone {
     VIP(BigDecimal.valueOf(150)),
     PREMIUM(BigDecimal.valueOf(100)),
-    ECONOMY(BigDecimal.valueOf(50));
+    REGULAR(BigDecimal.valueOf(50)),
+    ECONOMY(BigDecimal.valueOf(30));
 
     private final BigDecimal price;
 
