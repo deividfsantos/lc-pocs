@@ -17,16 +17,13 @@ public class Main {
         system.addShow(rockConcert);
         system.addShow(jazzNight);
 
-        // Sell through the facade
         system.sellTicket(rockConcert, Zone.VIP, 1);
         system.sellTicket(rockConcert, Zone.VIP, 5);
         system.sellTickets(rockConcert, Zone.REGULAR, 5);
         system.sellTickets(jazzNight, Zone.PREMIUM, 3);
 
-        // Try duplicate (should fail)
         system.sellTicket(rockConcert, Zone.VIP, 1);
 
-        // Summary
         System.out.println("\n=== Summary ===");
         int totalTickets = system.getShows().stream()
                 .mapToInt(system::getTotalTicketsSold)
