@@ -14,7 +14,6 @@ public class TodoList {
         return todoList;
     }
 
-
     public boolean removeTodo(Todo todo) {
         return todoList.remove(todo);
     }
