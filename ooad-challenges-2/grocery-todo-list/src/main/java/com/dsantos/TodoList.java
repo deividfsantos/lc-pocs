@@ -21,7 +21,7 @@ public class TodoList {
     public boolean markAsDone(Todo todo) {
         int index = todoList.indexOf(todo);
         if (index != -1) {
-            Todo updatedTodo = new Todo(todo.title(), todo.description(), Status.DONE);
+            Todo updatedTodo = new Todo(todo.title(), todo.quantity(), Status.DONE);
             todoList.set(index, updatedTodo);
             return true;
         }
