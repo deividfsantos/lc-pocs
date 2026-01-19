@@ -2,6 +2,7 @@ package com.dsantos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TodoList {
     private final List<Todo> todoList = new ArrayList<>();
@@ -26,5 +27,20 @@ public class TodoList {
             return true;
         }
         return false;
+    }
+
+    public long countByStatus(Status status) {
+        return todoList.stream().filter(t -> t.status() == status).count();
+    }
+
+    public int countPending() {
+        return (int) countByStatus(Status.PENDING);
+    }
+
+    // Return a list of todos with PENDING status
+    public List<Todo> listPending() {
+        return todoList.stream()
+                .filter(t -> t.status() == Status.PENDING)
+                .collect(Collectors.toList());
     }
 }
