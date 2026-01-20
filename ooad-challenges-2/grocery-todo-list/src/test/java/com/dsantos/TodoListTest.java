@@ -61,5 +61,15 @@ public class TodoListTest {
         Todo t = new Todo("Jam", 1, Status.PENDING);
         assertFalse(todoList.markAsDone(t));
     }
-}
 
+    @Test
+    void countPendingWorks() {
+        TodoList todoList = new TodoList();
+        todoList.addTodo(new Todo("A", 1, Status.PENDING));
+        todoList.addTodo(new Todo("B", 2, Status.DONE));
+        todoList.addTodo(new Todo("C", 3, Status.PENDING));
+
+        assertEquals(2, todoList.countPending());
+        assertEquals(1, todoList.countByStatus(Status.DONE));
+    }
+}
