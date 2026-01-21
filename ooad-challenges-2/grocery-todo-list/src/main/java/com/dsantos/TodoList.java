@@ -1,11 +1,22 @@
 package com.dsantos;
 
+import com.dsantos.command.Command;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class TodoList {
-    private final List<Todo> todoList = new ArrayList<>();
+    private final List<Todo> todoList;
+    private final Stack<Command> undoStack;
+    private final Stack<Command> redoStack;
+
+    public TodoList() {
+        this.todoList = new ArrayList<>();
+        this.undoStack = new Stack<>();
+        this.redoStack = new Stack<>();
+    }
 
     public void addTodo(Todo todo) {
         todoList.add(todo);
@@ -37,7 +48,6 @@ public class TodoList {
         return (int) countByStatus(Status.PENDING);
     }
 
-    // Return a list of todos with PENDING status
     public List<Todo> listPending() {
         return todoList.stream()
                 .filter(t -> t.status() == Status.PENDING)
