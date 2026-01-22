@@ -53,4 +53,41 @@ public class TodoList {
                 .filter(t -> t.status() == Status.PENDING)
                 .collect(Collectors.toList());
     }
+
+    private class AddCommand implements Command {
+        private final Todo todo;
+
+        public AddCommand(Todo todo) {
+            this.todo = todo;
+        }
+
+        @Override
+        public void execute() {
+            todoList.add(todo);
+        }
+
+        @Override
+        public void undo() {
+            todoList.remove(todo);
+        }
+    }
+
+
+    private class RemoveCommand implements Command {
+        private final Todo todo;
+
+        public RemoveCommand(Todo todo) {
+            this.todo = todo;
+        }
+
+        @Override
+        public void execute() {
+            todoList.add(todo);
+        }
+
+        @Override
+        public void undo() {
+            todoList.remove(todo);
+        }
+    }
 }
