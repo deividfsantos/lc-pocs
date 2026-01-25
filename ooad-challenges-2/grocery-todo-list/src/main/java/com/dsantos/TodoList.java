@@ -19,7 +19,10 @@ public class TodoList {
     }
 
     public void addTodo(Todo todo) {
-        todoList.add(todo);
+        Command cmd = new AddCommand(todo);
+        cmd.execute();
+        undoStack.push(cmd);
+        redoStack.clear();
     }
 
     public List<Todo> getTodos() {
@@ -27,17 +30,40 @@ public class TodoList {
     }
 
     public boolean removeTodo(Todo todo) {
-        return todoList.remove(todo);
+        if (!todoList.contains(todo)) return false;
+        Command cmd = new RemoveCommand(todo);
+        cmd.execute();
+        undoStack.push(cmd);
+        redoStack.clear();
+        return true;
     }
 
     public boolean markAsDone(Todo todo) {
         int index = todoList.indexOf(todo);
         if (index != -1) {
-            Todo updatedTodo = new Todo(todo.title(), todo.quantity(), Status.DONE);
-            todoList.set(index, updatedTodo);
+            Command cmd = new MarkAsDoneCommand(index, todo);
+            cmd.execute();
+            undoStack.push(cmd);
+            redoStack.clear();
             return true;
         }
         return false;
+    }
+
+    public void undo() {
+        if (!undoStack.isEmpty()) {
+            Command cmd = undoStack.pop();
+            cmd.undo();
+            redoStack.push(cmd);
+        }
+    }
+
+    public void redo() {
+        if (!redoStack.isEmpty()) {
+            Command cmd = redoStack.pop();
+            cmd.execute();
+            undoStack.push(cmd);
+        }
     }
 
     public long countByStatus(Status status) {
@@ -72,9 +98,9 @@ public class TodoList {
         }
     }
 
-
     private class RemoveCommand implements Command {
         private final Todo todo;
+        private int index = -1;
 
         public RemoveCommand(Todo todo) {
             this.todo = todo;
@@ -82,12 +108,39 @@ public class TodoList {
 
         @Override
         public void execute() {
-            todoList.add(todo);
+            index = todoList.indexOf(todo);
+            todoList.remove(todo);
         }
 
         @Override
         public void undo() {
-            todoList.remove(todo);
+            if (index >= 0 && index <= todoList.size()) {
+                todoList.add(index, todo);
+            } else {
+                todoList.add(todo);
+            }
+        }
+    }
+
+    private class MarkAsDoneCommand implements Command {
+        private final int index;
+        private final Todo originalTodo;
+        private Todo doneTodo;
+
+        public MarkAsDoneCommand(int index, Todo todo) {
+            this.index = index;
+            this.originalTodo = todo;
+        }
+
+        @Override
+        public void execute() {
+            doneTodo = new Todo(originalTodo.title(), originalTodo.quantity(), Status.DONE);
+            todoList.set(index, doneTodo);
+        }
+
+        @Override
+        public void undo() {
+            todoList.set(index, originalTodo);
         }
     }
 }
