@@ -72,4 +72,90 @@ public class TodoListTest {
         assertEquals(2, todoList.countPending());
         assertEquals(1, todoList.countByStatus(Status.DONE));
     }
+
+    @Test
+    void undoAddTodoRemovesIt() {
+        TodoList todoList = new TodoList();
+        Todo t = new Todo("Undo Test", 1, Status.PENDING);
+        todoList.addTodo(t);
+        todoList.undo();
+        assertFalse(todoList.getTodos().contains(t));
+    }
+
+    @Test
+    void redoAddTodoRestoresIt() {
+        TodoList todoList = new TodoList();
+        Todo t = new Todo("Redo Test", 1, Status.PENDING);
+        todoList.addTodo(t);
+        todoList.undo();
+        todoList.redo();
+        assertTrue(todoList.getTodos().contains(t));
+    }
+
+    @Test
+    void undoRemoveTodoRestoresIt() {
+        TodoList todoList = new TodoList();
+        Todo t = new Todo("Remove Undo", 1, Status.PENDING);
+        todoList.addTodo(t);
+        todoList.removeTodo(t);
+        todoList.undo();
+        assertTrue(todoList.getTodos().contains(t));
+    }
+
+    @Test
+    void redoRemoveTodoRemovesItAgain() {
+        TodoList todoList = new TodoList();
+        Todo t = new Todo("Remove Redo", 1, Status.PENDING);
+        todoList.addTodo(t);
+        todoList.removeTodo(t);
+        todoList.undo();
+        todoList.redo();
+        assertFalse(todoList.getTodos().contains(t));
+    }
+
+    @Test
+    void undoMarkAsDoneRestoresPending() {
+        TodoList todoList = new TodoList();
+        Todo t = new Todo("Undo Done", 1, Status.PENDING);
+        todoList.addTodo(t);
+        todoList.markAsDone(t);
+        todoList.undo();
+        Todo restored = todoList.getTodos().get(0);
+        assertEquals(Status.PENDING, restored.status());
+    }
+
+    @Test
+    void redoMarkAsDoneSetsDoneAgain() {
+        TodoList todoList = new TodoList();
+        Todo t = new Todo("Redo Done", 1, Status.PENDING);
+        todoList.addTodo(t);
+        todoList.markAsDone(t);
+        todoList.undo();
+        todoList.redo();
+        Todo done = todoList.getTodos().get(0);
+        assertEquals(Status.DONE, done.status());
+    }
+
+    @Test
+    void undoRedoSequenceWorks() {
+        TodoList todoList = new TodoList();
+        Todo t1 = new Todo("A", 1, Status.PENDING);
+        Todo t2 = new Todo("B", 2, Status.PENDING);
+        todoList.addTodo(t1);
+        todoList.addTodo(t2);
+        todoList.markAsDone(t1);
+        todoList.removeTodo(t2);
+        todoList.undo();
+        todoList.undo();
+        List<Todo> todos = todoList.getTodos();
+        assertEquals(2, todos.size());
+        assertTrue(todos.stream().anyMatch(t -> t.title().equals("A") && t.status() == Status.PENDING));
+        assertTrue(todos.stream().anyMatch(t -> t.title().equals("B")));
+        todoList.redo();
+        todoList.redo();
+        todos = todoList.getTodos();
+        assertEquals(1, todos.size());
+        assertEquals("A", todos.getFirst().title());
+        assertEquals(Status.DONE, todos.getFirst().status());
+    }
 }
