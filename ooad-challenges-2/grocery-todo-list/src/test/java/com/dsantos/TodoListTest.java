@@ -49,7 +49,7 @@ public class TodoListTest {
 
         List<Todo> todos = todoList.getTodos();
         assertEquals(1, todos.size());
-        Todo updated = todos.get(0);
+        Todo updated = todos.getFirst();
         assertEquals("Butter", updated.title());
         assertEquals(1, updated.quantity());
         assertEquals(Status.DONE, updated.status());
@@ -120,7 +120,7 @@ public class TodoListTest {
         todoList.addTodo(t);
         todoList.markAsDone(t);
         todoList.undo();
-        Todo restored = todoList.getTodos().get(0);
+        Todo restored = todoList.getTodos().getFirst();
         assertEquals(Status.PENDING, restored.status());
     }
 
@@ -132,30 +132,30 @@ public class TodoListTest {
         todoList.markAsDone(t);
         todoList.undo();
         todoList.redo();
-        Todo done = todoList.getTodos().get(0);
+        Todo done = todoList.getTodos().getFirst();
         assertEquals(Status.DONE, done.status());
     }
 
     @Test
     void undoRedoSequenceWorks() {
         TodoList todoList = new TodoList();
-        Todo t1 = new Todo("A", 1, Status.PENDING);
-        Todo t2 = new Todo("B", 2, Status.PENDING);
+        var t1 = new Todo("A", 1, Status.PENDING);
+        var t2 = new Todo("B", 2, Status.PENDING);
         todoList.addTodo(t1);
         todoList.addTodo(t2);
         todoList.markAsDone(t1);
         todoList.removeTodo(t2);
         todoList.undo();
         todoList.undo();
-        List<Todo> todos = todoList.getTodos();
+        var todos = todoList.getTodos();
         assertEquals(2, todos.size());
         assertTrue(todos.stream().anyMatch(t -> t.title().equals("A") && t.status() == Status.PENDING));
         assertTrue(todos.stream().anyMatch(t -> t.title().equals("B")));
         todoList.redo();
         todoList.redo();
-        todos = todoList.getTodos();
-        assertEquals(1, todos.size());
-        assertEquals("A", todos.getFirst().title());
-        assertEquals(Status.DONE, todos.getFirst().status());
+        var todos2 = todoList.getTodos();
+        assertEquals(1, todos2.size());
+        assertEquals("A", todos2.getFirst().title());
+        assertEquals(Status.DONE, todos2.getFirst().status());
     }
 }

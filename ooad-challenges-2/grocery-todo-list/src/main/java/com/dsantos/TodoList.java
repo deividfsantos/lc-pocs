@@ -125,7 +125,6 @@ public class TodoList {
     private class MarkAsDoneCommand implements Command {
         private final int index;
         private final Todo originalTodo;
-        private Todo doneTodo;
 
         public MarkAsDoneCommand(int index, Todo todo) {
             this.index = index;
@@ -134,7 +133,7 @@ public class TodoList {
 
         @Override
         public void execute() {
-            doneTodo = new Todo(originalTodo.title(), originalTodo.quantity(), Status.DONE);
+            Todo doneTodo = new Todo(originalTodo.title(), originalTodo.quantity(), Status.DONE);
             todoList.set(index, doneTodo);
         }
 
