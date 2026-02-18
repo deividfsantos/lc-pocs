@@ -45,7 +45,7 @@ public class LocalFileShareService implements FileShareService {
     public byte[] restore(UUID id) {
         return repository.get(id).map(m -> {
             try {
-                Path p = Paths.get(m.getPath());
+                Path p = Paths.get(m.path());
                 byte[] encrypted = Files.readAllBytes(p);
                 return crypto.decrypt(encrypted);
             } catch (IOException e) {
@@ -58,7 +58,7 @@ public class LocalFileShareService implements FileShareService {
     public boolean delete(UUID id) {
         return repository.get(id).map(m -> {
             try {
-                Path p = Paths.get(m.getPath());
+                Path p = Paths.get(m.path());
                 Files.deleteIfExists(p);
                 repository.delete(id);
                 return true;

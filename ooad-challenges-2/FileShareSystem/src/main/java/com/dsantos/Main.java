@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class Main {
-    public static void main(String[] args) {
+    static void main() {
         CryptoService crypto = new CryptoService();
         FileRepository repo = new FileRepository();
         LocalFileShareService svc = new LocalFileShareService(Paths.get("storage"), crypto, repo);

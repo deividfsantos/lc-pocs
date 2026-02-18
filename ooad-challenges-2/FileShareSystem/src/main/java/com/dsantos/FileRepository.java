@@ -7,7 +7,7 @@ public class FileRepository {
     private final Map<UUID, FileMetadata> store = new LinkedHashMap<>();
 
     public void save(FileMetadata meta) {
-        store.put(meta.getId(), meta);
+        store.put(meta.id(), meta);
     }
 
     public Optional<FileMetadata> get(UUID id) {
@@ -25,7 +25,7 @@ public class FileRepository {
     public List<FileMetadata> searchByName(String query) {
         String q = query == null ? "" : query.toLowerCase();
         return store.values().stream()
-                .filter(m -> m.getOriginalName().toLowerCase().contains(q))
+                .filter(m -> m.originalName().toLowerCase().contains(q))
                 .collect(Collectors.toList());
     }
 }
