@@ -2,24 +2,36 @@ package com.dsantos;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class NoteManagerTest {
 
-    @TempDir
-    Path tempDir;
-
     private NoteManager manager;
+    private InMemoryStorage fakeStorage;
+
+    static class InMemoryStorage implements Storage {
+        private List<Note> persisted = new ArrayList<>();
+
+        @Override
+        public void save(List<Note> notes) {
+            persisted = new ArrayList<>(notes);
+        }
+
+        @Override
+        public List<Note> load() {
+            return new ArrayList<>(persisted);
+        }
+    }
 
     @BeforeEach
     void setUp() {
-        manager = new NoteManager(tempDir.resolve("notes.txt").toString());
+        fakeStorage = new InMemoryStorage();
+        manager = new NoteManager(new NoteRepository(), fakeStorage);
     }
 
     @Test
@@ -79,10 +91,9 @@ class NoteManagerTest {
     }
 
     @Test
-    void syncFromEmptyFileResultsInEmptyList() throws IOException {
+    void syncFromEmptyStorageResultsInEmptyList() throws IOException {
         manager.addNote("Temp", "Data");
         manager.sync();
         assertTrue(manager.getAllNotes().isEmpty());
     }
 }
-

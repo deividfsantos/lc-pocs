@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteFileStorage {
+public class NoteFileStorage implements Storage {
 
     private static final String DELIMITER = "|";
     private static final String ESCAPED_DELIMITER = "\\|";

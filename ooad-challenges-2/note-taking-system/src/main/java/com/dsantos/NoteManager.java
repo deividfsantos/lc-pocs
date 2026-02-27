@@ -6,12 +6,16 @@ import java.util.UUID;
 
 public class NoteManager {
 
-    private final NoteRepository repository;
-    private final NoteFileStorage storage;
+    private final Repository repository;
+    private final Storage storage;
 
     public NoteManager(String storageFilePath) {
-        this.repository = new NoteRepository();
-        this.storage = new NoteFileStorage(storageFilePath);
+        this(new NoteRepository(), new NoteFileStorage(storageFilePath));
+    }
+
+    public NoteManager(Repository repository, Storage storage) {
+        this.repository = repository;
+        this.storage = storage;
     }
 
     public Note addNote(String title, String content) {
@@ -44,4 +48,3 @@ public class NoteManager {
         return repository.getAll();
     }
 }
-
