@@ -1,8 +1,8 @@
 package com.dsantos;
 
+import com.dsantos.domain.Meeting;
 import com.dsantos.domain.Person;
 import com.dsantos.domain.TimeSlot;
-import com.dsantos.domain.Meeting;
 import com.dsantos.exception.ConflictException;
 import com.dsantos.repository.InMemoryMeetingRepository;
 import com.dsantos.service.CalendarService;
@@ -13,12 +13,12 @@ import java.util.List;
 
 /**
  * Demo driver for the Calendar System.
- *
+ * <p>
  * Demonstrates:
- *  1. bookMeeting   — schedule meetings for participants
- *  2. removeMeeting — cancel an existing meeting
- *  3. listMeetings  — list all meetings for a person (sorted by start)
- *  4. suggestTime   — find a free slot for two people
+ * 1. bookMeeting   — schedule meetings for participants
+ * 2. removeMeeting — cancel an existing meeting
+ * 3. listMeetings  — list all meetings for a person (sorted by start)
+ * 4. suggestTime   — find a free slot for two people
  */
 public class Main {
 
@@ -26,7 +26,7 @@ public class Main {
         CalendarService service = new CalendarService(new InMemoryMeetingRepository());
 
         Person alice = new Person("Alice", "alice@example.com");
-        Person bob   = new Person("Bob",   "bob@example.com");
+        Person bob = new Person("Bob", "bob@example.com");
 
         LocalDateTime today = LocalDateTime.now().withHour(9).withMinute(0).withSecond(0).withNano(0);
 

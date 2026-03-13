@@ -3,7 +3,6 @@ package com.dsantos.service;
 import com.dsantos.domain.Meeting;
 import com.dsantos.domain.Person;
 import com.dsantos.domain.TimeSlot;
-import com.dsantos.exception.CalendarException;
 import com.dsantos.repository.MeetingRepository;
 
 import java.time.Duration;
