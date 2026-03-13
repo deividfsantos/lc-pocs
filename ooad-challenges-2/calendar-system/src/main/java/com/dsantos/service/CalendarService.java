@@ -6,6 +6,7 @@ import com.dsantos.domain.TimeSlot;
 import com.dsantos.exception.CalendarException;
 import com.dsantos.repository.MeetingRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -45,6 +46,25 @@ public class CalendarService {
     public boolean removeMeeting(UUID id) {
         Objects.requireNonNull(id, "Meeting id must not be null");
         return repository.remove(id);
+    }
+
+    /**
+     * Returns all meetings for a given participant, sorted by start time (ascending).
+     */
+    public List<Meeting> listMeetings(Person person) {
+        Objects.requireNonNull(person, "Person must not be null");
+        return repository.findByParticipant(person).stream()
+                .sorted(Comparator.comparing(m -> m.getTimeSlot().getStart()))
+                .toList();
+    }
+
+    /**
+     * Returns every meeting in the system, sorted by start time (ascending).
+     */
+    public List<Meeting> listAllMeetings() {
+        return repository.findAll().stream()
+                .sorted(Comparator.comparing(m -> m.getTimeSlot().getStart()))
+                .toList();
     }
 }
 
