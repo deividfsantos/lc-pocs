@@ -9,10 +9,6 @@ import com.dsantos.repository.MeetingRepository;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Validates that a proposed {@link TimeSlot} does not conflict with
- * any existing meeting for the given participants.
- */
 public class MeetingValidator {
 
     private final MeetingRepository repository;
@@ -21,11 +17,6 @@ public class MeetingValidator {
         this.repository = Objects.requireNonNull(repository, "Repository must not be null");
     }
 
-    /**
-     * Checks that none of the {@code participants} has an overlapping meeting.
-     *
-     * @throws ConflictException if any participant has a scheduling conflict.
-     */
     public void validate(TimeSlot proposedSlot, List<Person> participants) {
         Objects.requireNonNull(proposedSlot, "Proposed slot must not be null");
         Objects.requireNonNull(participants, "Participants must not be null");

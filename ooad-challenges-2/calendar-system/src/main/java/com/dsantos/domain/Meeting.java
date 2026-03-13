@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * Entity representing a scheduled meeting.
- * A meeting has a unique id, a title, a time slot, and at least one participant.
- */
 public final class Meeting {
 
     private final UUID id;

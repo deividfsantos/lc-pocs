@@ -6,10 +6,6 @@ import com.dsantos.domain.Person;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Thread-unsafe in-memory implementation of {@link MeetingRepository}.
- * Uses a {@link HashMap} keyed by meeting UUID.
- */
 public class InMemoryMeetingRepository implements MeetingRepository {
 
     private final Map<UUID, Meeting> store = new HashMap<>();

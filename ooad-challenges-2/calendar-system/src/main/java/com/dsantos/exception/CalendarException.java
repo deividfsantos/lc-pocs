@@ -1,8 +1,5 @@
 package com.dsantos.exception;
 
-/**
- * Base unchecked exception for all domain-level calendar errors.
- */
 public class CalendarException extends RuntimeException {
 
     public CalendarException(String message) {

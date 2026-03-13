@@ -13,12 +13,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-/**
- * Finds free time slots by merging the busy intervals of both participants
- * and scanning the gaps within the search window for slots of the required duration.
- *
- * <p>Slots are aligned to a configurable step (default: 15 minutes).
- */
 public class FreeSlotTimeSuggester implements TimeSuggester {
 
     private static final Duration DEFAULT_STEP = Duration.ofMinutes(15);
@@ -87,7 +81,6 @@ public class FreeSlotTimeSuggester implements TimeSuggester {
         return List.copyOf(suggestions);
     }
 
-    /** Merges overlapping or adjacent time slots into a minimal list. */
     private List<TimeSlot> merge(List<TimeSlot> sorted) {
         List<TimeSlot> merged = new ArrayList<>();
         for (TimeSlot ts : sorted) {
@@ -107,10 +100,6 @@ public class FreeSlotTimeSuggester implements TimeSuggester {
         return merged;
     }
 
-    /**
-     * Returns all slots of length {@code duration} that fit inside [gapStart, gapEnd),
-     * aligned by {@code step}.
-     */
     private List<TimeSlot> slotsInGap(LocalDateTime gapStart, LocalDateTime gapEnd, Duration duration) {
         List<TimeSlot> slots = new ArrayList<>();
         LocalDateTime cursor = gapStart;

@@ -3,10 +3,6 @@ package com.dsantos.domain;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * Immutable value object representing a person who can participate in meetings.
- * Equality is based on email address to prevent ghost duplicates.
- */
 public final class Person {
 
     private final UUID id;
