@@ -66,5 +66,14 @@ public class CalendarService {
                 .sorted(Comparator.comparing(m -> m.getTimeSlot().getStart()))
                 .toList();
     }
+
+    /**
+     * Suggests free {@link TimeSlot}s of the given {@code duration} within
+     * {@code searchWindow} where both participants are available.
+     */
+    public List<TimeSlot> suggestTime(Person person1, Person person2,
+                                      Duration duration, TimeSlot searchWindow) {
+        return suggester.suggest(person1, person2, duration, searchWindow);
+    }
 }
 
