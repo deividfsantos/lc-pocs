@@ -6,6 +6,7 @@ import com.dsantos.domain.TimeSlot;
 import com.dsantos.exception.CalendarException;
 import com.dsantos.repository.MeetingRepository;
 
+import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -19,10 +20,12 @@ public class CalendarService {
 
     private final MeetingRepository repository;
     private final MeetingValidator validator;
+    private final TimeSuggester suggester;
 
     public CalendarService(MeetingRepository repository) {
         this.repository = Objects.requireNonNull(repository, "Repository must not be null");
         this.validator = new MeetingValidator(repository);
+        this.suggester = new FreeSlotTimeSuggester(repository);
     }
 
     /**
