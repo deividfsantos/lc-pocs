@@ -3,28 +3,15 @@ package com.dsantos.domain;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public final class TimeSlot {
+public record TimeSlot(LocalDateTime start, LocalDateTime end) {
 
-    private final LocalDateTime start;
-    private final LocalDateTime end;
-
-    public TimeSlot(LocalDateTime start, LocalDateTime end) {
+    public TimeSlot {
         Objects.requireNonNull(start, "Start time must not be null");
         Objects.requireNonNull(end, "End time must not be null");
         if (!start.isBefore(end)) {
             throw new IllegalArgumentException(
                     "Start time must be before end time, but got: " + start + " >= " + end);
         }
-        this.start = start;
-        this.end = end;
-    }
-
-    public LocalDateTime getStart() {
-        return start;
-    }
-
-    public LocalDateTime getEnd() {
-        return end;
     }
 
     public boolean overlaps(TimeSlot other) {
@@ -42,11 +29,6 @@ public final class TimeSlot {
         if (this == o) return true;
         if (!(o instanceof TimeSlot other)) return false;
         return start.equals(other.start) && end.equals(other.end);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(start, end);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class CalendarService {
     private final TimeSuggester suggester;
 
     public CalendarService(MeetingRepository repository) {
-        this.repository = Objects.requireNonNull(repository, "Repository must not be null");
+        this.repository = repository;
         this.validator = new MeetingValidator(repository);
         this.suggester = new FreeSlotTimeSuggester(repository);
     }
@@ -38,13 +38,13 @@ public class CalendarService {
     public List<Meeting> listMeetings(Person person) {
         Objects.requireNonNull(person, "Person must not be null");
         return repository.findByParticipant(person).stream()
-                .sorted(Comparator.comparing(m -> m.getTimeSlot().getStart()))
+                .sorted(Comparator.comparing(m -> m.getTimeSlot().start()))
                 .toList();
     }
 
     public List<Meeting> listAllMeetings() {
         return repository.findAll().stream()
-                .sorted(Comparator.comparing(m -> m.getTimeSlot().getStart()))
+                .sorted(Comparator.comparing(m -> m.getTimeSlot().start()))
                 .toList();
     }
 

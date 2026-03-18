@@ -92,7 +92,7 @@ public class Main {
         } else {
             System.out.println("First 5 suggestions:");
             suggestions.stream().limit(5).forEach(s ->
-                    System.out.println("  - " + s.getStart().toLocalTime() + " → " + s.getEnd().toLocalTime()));
+                    System.out.println("  - " + s.start().toLocalTime() + " → " + s.end().toLocalTime()));
         }
     }
 }

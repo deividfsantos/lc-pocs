@@ -48,34 +48,32 @@ public class FreeSlotTimeSuggester implements TimeSuggester {
                         repository.findByParticipant(person1).stream(),
                         repository.findByParticipant(person2).stream())
                 .map(Meeting::getTimeSlot)
-                .sorted(Comparator.comparing(TimeSlot::getStart))
+                .sorted(Comparator.comparing(TimeSlot::start))
                 .toList();
 
         List<TimeSlot> mergedBusy = merge(busy);
 
         // Scan the search window stepping through free gaps
         List<TimeSlot> suggestions = new ArrayList<>();
-        LocalDateTime cursor = searchWindow.getStart();
+        LocalDateTime cursor = searchWindow.start();
 
         for (TimeSlot busySlot : mergedBusy) {
             // Skip busy slots entirely before the cursor
-            if (!busySlot.getEnd().isAfter(cursor)) continue;
+            if (!busySlot.end().isAfter(cursor)) continue;
 
             // Scan the free gap between cursor and the start of this busy slot
-            LocalDateTime gapEnd = busySlot.getStart().isBefore(searchWindow.getEnd())
-                    ? busySlot.getStart()
-                    : searchWindow.getEnd();
+            LocalDateTime gapEnd = busySlot.start().isBefore(searchWindow.end())
+                    ? busySlot.start()
+                    : searchWindow.end();
             suggestions.addAll(slotsInGap(cursor, gapEnd, duration));
 
             // Advance cursor past this busy slot
-            if (busySlot.getEnd().isAfter(cursor)) {
-                cursor = busySlot.getEnd();
-            }
+            cursor = busySlot.end();
         }
 
         // Handle the trailing free gap after all busy slots
-        if (cursor.isBefore(searchWindow.getEnd())) {
-            suggestions.addAll(slotsInGap(cursor, searchWindow.getEnd(), duration));
+        if (cursor.isBefore(searchWindow.end())) {
+            suggestions.addAll(slotsInGap(cursor, searchWindow.end(), duration));
         }
 
         return List.copyOf(suggestions);
@@ -89,9 +87,9 @@ public class FreeSlotTimeSuggester implements TimeSuggester {
             } else {
                 TimeSlot last = merged.get(merged.size() - 1);
                 // Merge if overlapping or adjacent
-                if (!ts.getStart().isAfter(last.getEnd())) {
-                    LocalDateTime newEnd = last.getEnd().isAfter(ts.getEnd()) ? last.getEnd() : ts.getEnd();
-                    merged.set(merged.size() - 1, new TimeSlot(last.getStart(), newEnd));
+                if (!ts.start().isAfter(last.end())) {
+                    LocalDateTime newEnd = last.end().isAfter(ts.end()) ? last.end() : ts.end();
+                    merged.set(merged.size() - 1, new TimeSlot(last.start(), newEnd));
                 } else {
                     merged.add(ts);
                 }

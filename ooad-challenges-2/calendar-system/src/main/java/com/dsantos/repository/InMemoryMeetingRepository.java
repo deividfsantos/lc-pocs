@@ -38,7 +38,7 @@ public class InMemoryMeetingRepository implements MeetingRepository {
         Objects.requireNonNull(person, "Person must not be null");
         return store.values().stream()
                 .filter(m -> m.hasParticipant(person))
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 }
 
