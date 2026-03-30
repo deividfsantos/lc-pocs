@@ -3,11 +3,7 @@ package com.dsantos.repository;
 import com.dsantos.model.Course;
 import com.dsantos.model.enums.Subject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class InMemoryCourseRepository implements CourseRepository {
 

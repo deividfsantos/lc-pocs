@@ -1,10 +1,6 @@
 package com.dsantos.service;
 
-import com.dsantos.model.Course;
-import com.dsantos.model.Room;
-import com.dsantos.model.Student;
-import com.dsantos.model.Teacher;
-import com.dsantos.model.TimeSlot;
+import com.dsantos.model.*;
 import com.dsantos.repository.CourseRepository;
 import com.dsantos.repository.RoomRepository;
 import com.dsantos.repository.StudentRepository;

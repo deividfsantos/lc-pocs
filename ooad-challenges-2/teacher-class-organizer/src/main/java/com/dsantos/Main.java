@@ -1,20 +1,9 @@
 package com.dsantos;
 
-import com.dsantos.model.Course;
-import com.dsantos.model.Room;
-import com.dsantos.model.Student;
-import com.dsantos.model.Teacher;
-import com.dsantos.model.TimeSlot;
+import com.dsantos.model.*;
 import com.dsantos.model.enums.SchoolDay;
 import com.dsantos.model.enums.Subject;
-import com.dsantos.repository.CourseRepository;
-import com.dsantos.repository.InMemoryCourseRepository;
-import com.dsantos.repository.InMemoryRoomRepository;
-import com.dsantos.repository.InMemoryStudentRepository;
-import com.dsantos.repository.InMemoryTeacherRepository;
-import com.dsantos.repository.RoomRepository;
-import com.dsantos.repository.StudentRepository;
-import com.dsantos.repository.TeacherRepository;
+import com.dsantos.repository.*;
 import com.dsantos.service.ClassOptimizer;
 import com.dsantos.service.ClassOrganizer;
 import com.dsantos.service.ConflictChecker;
@@ -23,7 +12,6 @@ import com.dsantos.service.ScheduleReport;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -39,14 +27,14 @@ public class Main {
         populateRooms(roomRepo);
 
         List<TimeSlot> timeSlots = List.of(
-                new TimeSlot(SchoolDay.MONDAY,    LocalTime.of(8,  0), LocalTime.of(9,  30)),
-                new TimeSlot(SchoolDay.MONDAY,    LocalTime.of(10, 0), LocalTime.of(11, 30)),
-                new TimeSlot(SchoolDay.TUESDAY,   LocalTime.of(8,  0), LocalTime.of(9,  30)),
-                new TimeSlot(SchoolDay.TUESDAY,   LocalTime.of(10, 0), LocalTime.of(11, 30)),
-                new TimeSlot(SchoolDay.WEDNESDAY, LocalTime.of(8,  0), LocalTime.of(9,  30)),
+                new TimeSlot(SchoolDay.MONDAY, LocalTime.of(8, 0), LocalTime.of(9, 30)),
+                new TimeSlot(SchoolDay.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 30)),
+                new TimeSlot(SchoolDay.TUESDAY, LocalTime.of(8, 0), LocalTime.of(9, 30)),
+                new TimeSlot(SchoolDay.TUESDAY, LocalTime.of(10, 0), LocalTime.of(11, 30)),
+                new TimeSlot(SchoolDay.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(9, 30)),
                 new TimeSlot(SchoolDay.WEDNESDAY, LocalTime.of(13, 0), LocalTime.of(14, 30)),
-                new TimeSlot(SchoolDay.THURSDAY,  LocalTime.of(8,  0), LocalTime.of(9,  30)),
-                new TimeSlot(SchoolDay.FRIDAY,    LocalTime.of(8,  0), LocalTime.of(9,  30))
+                new TimeSlot(SchoolDay.THURSDAY, LocalTime.of(8, 0), LocalTime.of(9, 30)),
+                new TimeSlot(SchoolDay.FRIDAY, LocalTime.of(8, 0), LocalTime.of(9, 30))
         );
 
         ClassOrganizer organizer = new ClassOrganizer(teacherRepo, studentRepo, courseRepo, roomRepo);
@@ -93,43 +81,43 @@ public class Main {
     }
 
     private static void populateTeachers(TeacherRepository repo) {
-        repo.save(new Teacher("Alice Martin",   "alice@school.edu",  Set.of(Subject.MATH, Subject.PHYSICS)));
-        repo.save(new Teacher("Bob Chen",       "bob@school.edu",    Set.of(Subject.COMPUTER_SCIENCE, Subject.MATH)));
-        repo.save(new Teacher("Clara Osei",     "clara@school.edu",  Set.of(Subject.BIOLOGY, Subject.CHEMISTRY)));
-        repo.save(new Teacher("David Patel",    "david@school.edu",  Set.of(Subject.HISTORY, Subject.LITERATURE)));
-        repo.save(new Teacher("Elena Russo",    "elena@school.edu",  Set.of(Subject.ENGLISH, Subject.LITERATURE)));
+        repo.save(new Teacher("Alice Martin", "alice@school.edu", Set.of(Subject.MATH, Subject.PHYSICS)));
+        repo.save(new Teacher("Bob Chen", "bob@school.edu", Set.of(Subject.COMPUTER_SCIENCE, Subject.MATH)));
+        repo.save(new Teacher("Clara Osei", "clara@school.edu", Set.of(Subject.BIOLOGY, Subject.CHEMISTRY)));
+        repo.save(new Teacher("David Patel", "david@school.edu", Set.of(Subject.HISTORY, Subject.LITERATURE)));
+        repo.save(new Teacher("Elena Russo", "elena@school.edu", Set.of(Subject.ENGLISH, Subject.LITERATURE)));
     }
 
     private static void populateStudents(StudentRepository repo) {
-        repo.save(new Student("Tom Walker",    "tom@school.edu"));
-        repo.save(new Student("Sara Lee",      "sara@school.edu"));
-        repo.save(new Student("James Brown",   "james@school.edu"));
-        repo.save(new Student("Nina Gomez",    "nina@school.edu"));
-        repo.save(new Student("Liam Scott",    "liam@school.edu"));
-        repo.save(new Student("Mia Zhang",     "mia@school.edu"));
-        repo.save(new Student("Noah King",     "noah@school.edu"));
-        repo.save(new Student("Ella Davis",    "ella@school.edu"));
-        repo.save(new Student("Oliver White",  "oliver@school.edu"));
-        repo.save(new Student("Ava Johnson",   "ava@school.edu"));
+        repo.save(new Student("Tom Walker", "tom@school.edu"));
+        repo.save(new Student("Sara Lee", "sara@school.edu"));
+        repo.save(new Student("James Brown", "james@school.edu"));
+        repo.save(new Student("Nina Gomez", "nina@school.edu"));
+        repo.save(new Student("Liam Scott", "liam@school.edu"));
+        repo.save(new Student("Mia Zhang", "mia@school.edu"));
+        repo.save(new Student("Noah King", "noah@school.edu"));
+        repo.save(new Student("Ella Davis", "ella@school.edu"));
+        repo.save(new Student("Oliver White", "oliver@school.edu"));
+        repo.save(new Student("Ava Johnson", "ava@school.edu"));
     }
 
     private static void populateCourses(CourseRepository repo) {
-        repo.save(new Course("Calculus I",          Subject.MATH,             30));
-        repo.save(new Course("Intro to Physics",    Subject.PHYSICS,          25));
-        repo.save(new Course("World History",       Subject.HISTORY,          28));
-        repo.save(new Course("English Composition", Subject.ENGLISH,          20));
-        repo.save(new Course("Data Structures",     Subject.COMPUTER_SCIENCE, 22));
-        repo.save(new Course("Cell Biology",        Subject.BIOLOGY,          18));
-        repo.save(new Course("Organic Chemistry",   Subject.CHEMISTRY,        15));
-        repo.save(new Course("Modern Literature",   Subject.LITERATURE,       24));
+        repo.save(new Course("Calculus I", Subject.MATH, 30));
+        repo.save(new Course("Intro to Physics", Subject.PHYSICS, 25));
+        repo.save(new Course("World History", Subject.HISTORY, 28));
+        repo.save(new Course("English Composition", Subject.ENGLISH, 20));
+        repo.save(new Course("Data Structures", Subject.COMPUTER_SCIENCE, 22));
+        repo.save(new Course("Cell Biology", Subject.BIOLOGY, 18));
+        repo.save(new Course("Organic Chemistry", Subject.CHEMISTRY, 15));
+        repo.save(new Course("Modern Literature", Subject.LITERATURE, 24));
     }
 
     private static void populateRooms(RoomRepository repo) {
         repo.save(new Room("Room 101", 35));
         repo.save(new Room("Room 102", 20));
         repo.save(new Room("Room 103", 25));
-        repo.save(new Room("Lab A",    18));
-        repo.save(new Room("Hall B",   50));
+        repo.save(new Room("Lab A", 18));
+        repo.save(new Room("Hall B", 50));
     }
 
     private static void enrollStudentsManually(CourseRepository courseRepo, StudentRepository studentRepo) {
@@ -162,7 +150,7 @@ public class Main {
             return;
         }
 
-        Course first  = courses.get(0);
+        Course first = courses.get(0);
         Course second = courses.get(1);
 
         second.setTimeSlot(first.getTimeSlot());

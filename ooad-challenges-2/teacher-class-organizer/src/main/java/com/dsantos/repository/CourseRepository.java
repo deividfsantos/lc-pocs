@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CourseRepository extends Repository<Course, String> {
     List<Course> findBySubject(Subject subject);
+
     List<Course> findUnassigned();
 }
 

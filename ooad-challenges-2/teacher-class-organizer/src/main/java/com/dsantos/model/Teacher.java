@@ -1,13 +1,8 @@
-
 package com.dsantos.model;
 
 import com.dsantos.model.enums.Subject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Teacher extends Person {
 
