@@ -1,6 +1,9 @@
 package com.dsantos.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class Photo {
@@ -10,6 +13,7 @@ public class Photo {
     private String caption;
     private final LocalDateTime publishedAt;
     private final User author;
+    private final List<Tag> tags;
 
     public Photo(String imageUrl, String caption, User author) {
         this.id = UUID.randomUUID().toString();
@@ -17,6 +21,7 @@ public class Photo {
         this.caption = caption;
         this.author = author;
         this.publishedAt = LocalDateTime.now();
+        this.tags = new ArrayList<>();
     }
 
     public String getId() {
@@ -47,11 +52,22 @@ public class Photo {
         return author;
     }
 
+    public List<Tag> getTags() {
+        return Collections.unmodifiableList(tags);
+    }
+
+    public void addTag(Tag tag) {
+        if (!tags.contains(tag)) {
+            tags.add(tag);
+        }
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+    }
+
     @Override
     public String toString() {
         return "Photo{id='" + id + "', caption='" + caption + "', author=" + author.getUsername() + "}";
     }
 }
-
-
-
