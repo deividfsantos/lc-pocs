@@ -1,0 +1,57 @@
+package com.dsantos.domain;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public class Photo {
+
+    private final String id;
+    private String imageUrl;
+    private String caption;
+    private final LocalDateTime publishedAt;
+    private final User author;
+
+    public Photo(String imageUrl, String caption, User author) {
+        this.id = UUID.randomUUID().toString();
+        this.imageUrl = imageUrl;
+        this.caption = caption;
+        this.author = author;
+        this.publishedAt = LocalDateTime.now();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    @Override
+    public String toString() {
+        return "Photo{id='" + id + "', caption='" + caption + "', author=" + author.getUsername() + "}";
+    }
+}
+
+
+
