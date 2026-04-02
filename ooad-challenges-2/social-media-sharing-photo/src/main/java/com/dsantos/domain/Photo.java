@@ -14,6 +14,7 @@ public class Photo {
     private final LocalDateTime publishedAt;
     private final User author;
     private final List<Tag> tags;
+    private final List<Comment> comments;
 
     public Photo(String imageUrl, String caption, User author) {
         this.id = UUID.randomUUID().toString();
@@ -22,6 +23,7 @@ public class Photo {
         this.author = author;
         this.publishedAt = LocalDateTime.now();
         this.tags = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public String getId() {
@@ -64,6 +66,14 @@ public class Photo {
 
     public void removeTag(Tag tag) {
         tags.remove(tag);
+    }
+
+    public List<Comment> getComments() {
+        return Collections.unmodifiableList(comments);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 
     @Override
