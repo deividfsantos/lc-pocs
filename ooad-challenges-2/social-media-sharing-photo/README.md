@@ -43,18 +43,24 @@ Each entity has an interface defining the contract and an in-memory implementati
 | `TagService` | Find or create tags, list all tags, rank most used tags |
 | `TimelineService` | Build a user's own timeline or a global feed sorted by date |
 
-## How to Build
+## How to Run
 
 ```bash
-./gradlew build
+./gradlew run
 ```
+
+The demo in `Main.java` creates 3 users, publishes 4 photos, adds tags and comments, then prints:
+- each user's own timeline
+- a global feed sorted by most recent
+- photos filtered by a specific tag
+- top tags ranked by usage
+- comments on a photo
 
 ## Known Gaps
 
-- **No UserService** — users must be instantiated manually; no registration or lookup logic exists yet.
-- **No follow system** — `TimelineService.getGlobalTimeline()` returns all photos from all users. A real social feed should show only photos from followed users.
+- **No UserService** — users are instantiated directly; no registration or lookup service exists yet.
+- **No follow system** — `getUserTimeline` shows only the user's own photos. A real feed should pull from followed users.
 - **No like system** — photos have no like counter or interaction model.
-- **No persistence** — all data lives in memory and is lost when the app stops.
-- **No main demo** — `Main.java` only prints a startup message; nothing is wired together end to end.
+- **No persistence** — all data lives in memory and is lost on restart.
 - **No tests** — there are no unit tests covering any layer.
 
