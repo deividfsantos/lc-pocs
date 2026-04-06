@@ -4,11 +4,7 @@ import com.dsantos.domain.Photo;
 import com.dsantos.domain.Tag;
 import com.dsantos.domain.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class InMemoryPhotoRepository implements PhotoRepository {
 
