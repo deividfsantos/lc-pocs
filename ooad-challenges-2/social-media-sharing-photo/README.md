@@ -1,6 +1,8 @@
 # Social Media Photo Sharing App
 
-An object-oriented Java application simulating the core features of a photo sharing social media platform. Built with Java 25 and Gradle.
+A POC exploring object-oriented design through a simplified photo sharing platform. Users can publish photos, attach tags to categorize them, leave comments, and browse a timeline of posts. The goal is to practice layered architecture (domain, repository, service) and incremental feature delivery using plain Java — no frameworks, no database.
+
+Built with Java 25 and Gradle.
 
 ## Architecture
 
