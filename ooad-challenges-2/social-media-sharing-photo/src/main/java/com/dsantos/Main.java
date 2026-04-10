@@ -2,6 +2,7 @@ package com.dsantos;
 
 import com.dsantos.domain.User;
 import com.dsantos.repository.InMemoryCommentRepository;
+import com.dsantos.repository.InMemoryFollowRepository;
 import com.dsantos.repository.InMemoryPhotoRepository;
 import com.dsantos.repository.InMemoryTagRepository;
 import com.dsantos.repository.InMemoryUserRepository;
@@ -14,13 +15,14 @@ public class Main {
 
     static void main() {
         var photoRepository = new InMemoryPhotoRepository();
-        var tagRepository = new InMemoryTagRepository();
+        var tagRepository   = new InMemoryTagRepository();
+        var followRepository = new InMemoryFollowRepository();
 
-        var photoService = new PhotoService(photoRepository, tagRepository);
-        var commentService = new CommentService(new InMemoryCommentRepository(), photoRepository);
-        var tagService = new TagService(tagRepository, photoRepository);
-        var timelineService = new TimelineService(photoRepository);
-        var userRepository = new InMemoryUserRepository();
+        var photoService    = new PhotoService(photoRepository, tagRepository);
+        var commentService  = new CommentService(new InMemoryCommentRepository(), photoRepository);
+        var tagService      = new TagService(tagRepository, photoRepository);
+        var timelineService = new TimelineService(photoRepository, followRepository);
+        var userRepository  = new InMemoryUserRepository();
 
         var alice = userRepository.save(new User("alice", "alice@example.com"));
         var bob = userRepository.save(new User("bob", "bob@example.com"));
