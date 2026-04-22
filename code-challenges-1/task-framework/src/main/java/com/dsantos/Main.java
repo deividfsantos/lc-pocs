@@ -1,6 +1,11 @@
 package com.dsantos;
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Task framework - work in progress");
+        Task t = () -> System.out.println("hello from task");
+        try {
+            t.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
