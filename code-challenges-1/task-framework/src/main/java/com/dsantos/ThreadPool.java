@@ -16,4 +16,9 @@ public class ThreadPool {
     public void submit(Task task) throws InterruptedException {
         queue.put(task);
     }
+    public void shutdown() {
+        for (var w : workers) {
+            w.shutdown();
+        }
+    }
 }
