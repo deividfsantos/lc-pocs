@@ -1,13 +1,11 @@
 package com.dsantos;
-import java.util.concurrent.LinkedBlockingQueue;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        var queue = new LinkedBlockingQueue<Task>();
-        var worker = new Worker("worker-0", queue);
-        worker.start();
-        queue.put(() -> System.out.println("task 1 on " + Thread.currentThread().getName()));
-        queue.put(() -> System.out.println("task 2 on " + Thread.currentThread().getName()));
-        Thread.sleep(500);
-        worker.interrupt();
+        var pool = new ThreadPool(3);
+        for (int i = 0; i < 5; i++) {
+            int id = i;
+            pool.submit(() -> System.out.println("task " + id + " on " + Thread.currentThread().getName()));
+        }
+        Thread.sleep(1000);
     }
 }
