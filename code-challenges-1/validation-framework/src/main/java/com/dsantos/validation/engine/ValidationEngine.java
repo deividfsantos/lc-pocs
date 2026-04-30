@@ -1,5 +1,6 @@
 package com.dsantos.validation.engine;
 
+import com.dsantos.validation.constraints.Constraint;
 import com.dsantos.validation.core.ConstraintValidator;
 import com.dsantos.validation.core.ConstraintViolation;
 import com.dsantos.validation.core.ValidationResult;
@@ -50,14 +51,29 @@ public class ValidationEngine {
     private void processAnnotation(String fieldName, Annotation annotation, Object value,
                                    List<ConstraintViolation> violations) {
         Class<? extends Annotation> type = annotation.annotationType();
-        if (!registry.supports(type)) return;
 
-        ConstraintValidator validator = registry.getValidator(type);
-        validator.initialize(annotation);
+        if (registry.supports(type)) {
+            ConstraintValidator validator = registry.getValidator(type);
+            validator.initialize(annotation);
+            if (!validator.isValid(value)) {
+                violations.add(new ConstraintViolation(fieldName, resolveMessage(annotation, type), value));
+            }
+            return;
+        }
 
-        if (!validator.isValid(value)) {
-            String message = resolveMessage(annotation, type);
-            violations.add(new ConstraintViolation(fieldName, message, value));
+        Constraint constraint = type.getAnnotation(Constraint.class);
+        if (constraint != null) {
+            for (Class<? extends ConstraintValidator<?, ?>> validatorClass : constraint.validatedBy()) {
+                try {
+                    ConstraintValidator validator = validatorClass.getDeclaredConstructor().newInstance();
+                    validator.initialize(annotation);
+                    if (!validator.isValid(value)) {
+                        violations.add(new ConstraintViolation(fieldName, resolveMessage(annotation, type), value));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to create validator: " + validatorClass.getName(), e);
+                }
+            }
         }
     }
 
