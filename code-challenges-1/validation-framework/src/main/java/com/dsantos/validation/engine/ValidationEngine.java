@@ -1,6 +1,7 @@
 package com.dsantos.validation.engine;
 
 import com.dsantos.validation.constraints.Constraint;
+import com.dsantos.validation.constraints.Valid;
 import com.dsantos.validation.core.ConstraintValidator;
 import com.dsantos.validation.core.ConstraintViolation;
 import com.dsantos.validation.core.ValidationResult;
@@ -29,7 +30,12 @@ public class ValidationEngine {
         }
 
         List<ConstraintViolation> violations = new ArrayList<>();
+        collectViolations(object, "", violations);
 
+        return violations.isEmpty() ? ValidationResult.valid() : ValidationResult.invalid(violations);
+    }
+
+    private void collectViolations(Object object, String prefix, List<ConstraintViolation> violations) {
         for (Field field : object.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             Object value = null;
@@ -39,16 +45,22 @@ public class ValidationEngine {
                 continue;
             }
 
+            String fieldPath = prefix.isEmpty() ? field.getName() : prefix + "." + field.getName();
+
             for (Annotation annotation : field.getAnnotations()) {
-                processAnnotation(field.getName(), annotation, value, violations);
+                if (annotation instanceof Valid) {
+                    if (value != null) {
+                        collectViolations(value, fieldPath, violations);
+                    }
+                } else {
+                    processAnnotation(fieldPath, annotation, value, violations);
+                }
             }
         }
-
-        return violations.isEmpty() ? ValidationResult.valid() : ValidationResult.invalid(violations);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private void processAnnotation(String fieldName, Annotation annotation, Object value,
+    private void processAnnotation(String fieldPath, Annotation annotation, Object value,
                                    List<ConstraintViolation> violations) {
         Class<? extends Annotation> type = annotation.annotationType();
 
@@ -56,7 +68,7 @@ public class ValidationEngine {
             ConstraintValidator validator = registry.getValidator(type);
             validator.initialize(annotation);
             if (!validator.isValid(value)) {
-                violations.add(new ConstraintViolation(fieldName, resolveMessage(annotation, type), value));
+                violations.add(new ConstraintViolation(fieldPath, resolveMessage(annotation, type), value));
             }
             return;
         }
@@ -68,7 +80,7 @@ public class ValidationEngine {
                     ConstraintValidator validator = validatorClass.getDeclaredConstructor().newInstance();
                     validator.initialize(annotation);
                     if (!validator.isValid(value)) {
-                        violations.add(new ConstraintViolation(fieldName, resolveMessage(annotation, type), value));
+                        violations.add(new ConstraintViolation(fieldPath, resolveMessage(annotation, type), value));
                     }
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to create validator: " + validatorClass.getName(), e);
