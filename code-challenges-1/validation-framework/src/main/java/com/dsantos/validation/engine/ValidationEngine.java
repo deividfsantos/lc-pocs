@@ -49,13 +49,27 @@ public class ValidationEngine {
 
             for (Annotation annotation : field.getAnnotations()) {
                 if (annotation instanceof Valid) {
-                    if (value != null) {
-                        collectViolations(value, fieldPath, violations);
-                    }
+                    handleValid(fieldPath, value, violations);
                 } else {
                     processAnnotation(fieldPath, annotation, value, violations);
                 }
             }
+        }
+    }
+
+    private void handleValid(String fieldPath, Object value, List<ConstraintViolation> violations) {
+        if (value == null) return;
+
+        if (value instanceof Iterable<?> iterable) {
+            int index = 0;
+            for (Object element : iterable) {
+                if (element != null) {
+                    collectViolations(element, fieldPath + "[" + index + "]", violations);
+                }
+                index++;
+            }
+        } else {
+            collectViolations(value, fieldPath, violations);
         }
     }
 
