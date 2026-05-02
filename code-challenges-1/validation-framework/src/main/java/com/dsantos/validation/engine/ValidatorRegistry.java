@@ -27,18 +27,20 @@ public class ValidatorRegistry {
     private final Map<Class<? extends Annotation>, ConstraintValidator<?, ?>> validators = new HashMap<>();
 
     public ValidatorRegistry() {
-        validators.put(NotNull.class, new NotNullValidator());
-        validators.put(NotEmpty.class, new NotEmptyValidator());
-        validators.put(NotBlank.class, new NotBlankValidator());
-        validators.put(Min.class, new MinValidator());
-        validators.put(Max.class, new MaxValidator());
-        validators.put(Size.class, new SizeValidator());
-        validators.put(Pattern.class, new PatternValidator());
-        validators.put(Email.class, new EmailValidator());
+        register(NotNull.class, new NotNullValidator())
+                .register(NotEmpty.class, new NotEmptyValidator())
+                .register(NotBlank.class, new NotBlankValidator())
+                .register(Min.class, new MinValidator())
+                .register(Max.class, new MaxValidator())
+                .register(Size.class, new SizeValidator())
+                .register(Pattern.class, new PatternValidator())
+                .register(Email.class, new EmailValidator());
     }
 
-    public <A extends Annotation> void register(Class<A> annotationType, ConstraintValidator<A, ?> validator) {
+    public <A extends Annotation> ValidatorRegistry register(Class<A> annotationType,
+                                                              ConstraintValidator<A, ?> validator) {
         validators.put(annotationType, validator);
+        return this;
     }
 
     @SuppressWarnings("unchecked")
