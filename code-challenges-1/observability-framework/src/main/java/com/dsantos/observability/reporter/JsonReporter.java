@@ -4,6 +4,7 @@ import com.dsantos.observability.metric.Histogram;
 import com.dsantos.observability.metric.LatencySnapshot;
 import com.dsantos.observability.registry.MetricRegistry;
 
+import java.util.Locale;
 import java.util.StringJoiner;
 
 public class JsonReporter implements MetricReporter {
@@ -24,7 +25,8 @@ public class JsonReporter implements MetricReporter {
     }
 
     private String toJson(String name, LatencySnapshot snap) {
-        return """
+        return String.format(Locale.US,
+                """
                 {
               "name": "%s",
               "count": %d,
@@ -35,7 +37,7 @@ public class JsonReporter implements MetricReporter {
               "p90_ms": %.3f,
               "p95_ms": %.3f,
               "p99_ms": %.3f
-            }""".formatted(
+            }""",
                 name, snap.count(), snap.minMillis(), snap.maxMillis(),
                 snap.meanMillis(), snap.p50Millis(), snap.p90Millis(),
                 snap.p95Millis(), snap.p99Millis());
