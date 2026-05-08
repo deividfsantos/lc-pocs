@@ -37,20 +37,28 @@ public class MethodTimer {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Timed timed = method.getAnnotation(Timed.class);
+            Method targetMethod = resolveTargetMethod(method);
+
             if (timed == null) {
-                return method.invoke(target, args);
+                return targetMethod.invoke(target, args);
             }
 
             String metricName = timed.value().isBlank() ? method.getName() : timed.value();
             Stopwatch sw = Stopwatch.start(metricName, timed.tags());
             try {
-                return method.invoke(target, args);
+                return targetMethod.invoke(target, args);
             } catch (InvocationTargetException e) {
                 throw e.getCause();
             } finally {
                 LatencyMetric metric = sw.stop();
                 registry.record(metric);
             }
+        }
+
+        private Method resolveTargetMethod(Method method) throws NoSuchMethodException {
+            Method m = target.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+            m.setAccessible(true);
+            return m;
         }
     }
 }
