@@ -1,6 +1,7 @@
 package com.dsantos.observability.reporter;
 
-import com.dsantos.observability.metric.LatencyMetric;
+import com.dsantos.observability.metric.Histogram;
+import com.dsantos.observability.metric.LatencySnapshot;
 import com.dsantos.observability.registry.MetricRegistry;
 
 public class ConsoleReporter implements MetricReporter {
@@ -10,12 +11,12 @@ public class ConsoleReporter implements MetricReporter {
         System.out.println("=== Latency Report ===");
         registry.getAllMetrics().forEach((name, metrics) -> {
             if (metrics.isEmpty()) return;
-            double avg = metrics.stream().mapToLong(LatencyMetric::durationNanos)
-                    .average().orElse(0) / 1_000_000.0;
-            long min = metrics.stream().mapToLong(LatencyMetric::durationNanos).min().orElse(0);
-            long max = metrics.stream().mapToLong(LatencyMetric::durationNanos).max().orElse(0);
-            System.out.printf("[%s] count=%d  avg=%.2fms  min=%.2fms  max=%.2fms%n",
-                    name, metrics.size(), avg, min / 1_000_000.0, max / 1_000_000.0);
+            Histogram histogram = new Histogram();
+            metrics.forEach(m -> histogram.record(m.durationNanos()));
+            LatencySnapshot snap = histogram.snapshot();
+            System.out.printf("[%s] count=%d  mean=%.2fms  p50=%.2fms  p90=%.2fms  p95=%.2fms  p99=%.2fms%n",
+                    name, snap.count(), snap.meanMillis(), snap.p50Millis(),
+                    snap.p90Millis(), snap.p95Millis(), snap.p99Millis());
         });
     }
 }

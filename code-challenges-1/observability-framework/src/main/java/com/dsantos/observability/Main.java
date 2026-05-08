@@ -4,6 +4,7 @@ import com.dsantos.observability.annotation.Timed;
 import com.dsantos.observability.interceptor.MethodTimer;
 import com.dsantos.observability.registry.MetricRegistry;
 import com.dsantos.observability.reporter.ConsoleReporter;
+import com.dsantos.observability.reporter.JsonReporter;
 
 public class Main {
 
@@ -13,12 +14,14 @@ public class Main {
 
         Service service = timer.wrap(new ServiceImpl(), Service.class);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             service.processRequest();
             service.fetchData();
         }
 
         new ConsoleReporter().report(registry);
+        System.out.println();
+        new JsonReporter().report(registry);
     }
 
     interface Service {
