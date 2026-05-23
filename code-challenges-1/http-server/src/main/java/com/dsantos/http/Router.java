@@ -4,14 +4,15 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Router {
-    private final Map<String, Handler> routes = new HashMap<>();
+    private final Map<String, Handler> routes = new LinkedHashMap<>();
 
-    public void get(String path, Handler handler) {
+    public Router get(String path, Handler handler) {
         routes.put("GET:" + path, handler);
+        return this;
     }
 
     public void handle(HttpExchange exchange) throws IOException {
