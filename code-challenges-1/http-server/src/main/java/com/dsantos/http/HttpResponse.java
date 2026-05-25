@@ -19,6 +19,14 @@ public class HttpResponse {
         send(200, body, "application/json");
     }
 
+    public void notFound(String body) throws IOException {
+        send(404, body, "text/plain");
+    }
+
+    public void badRequest(String body) throws IOException {
+        send(400, body, "text/plain");
+    }
+
     public void send(int status, String body, String contentType) throws IOException {
         byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().set("Content-Type", contentType + "; charset=utf-8");
