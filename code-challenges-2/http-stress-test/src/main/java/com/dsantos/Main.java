@@ -1,5 +1,6 @@
 package com.dsantos;
 import com.dsantos.config.StressTestConfig;
+import com.dsantos.report.ReportPrinter;
 import com.dsantos.stats.StatsCollector;
 import com.dsantos.worker.RequestWorker;
 import java.util.concurrent.ExecutorService;
@@ -18,11 +19,6 @@ public class Main {
         executor.shutdown();
         executor.awaitTermination(120, TimeUnit.SECONDS);
         long elapsed = System.currentTimeMillis() - start;
-        System.out.println("Completed in " + elapsed + " ms");
-        System.out.println("Success: " + stats.getSuccessCount());
-        System.out.println("Failures: " + stats.getFailureCount());
-        System.out.printf("Avg latency: %.2f ms%n", stats.getAverageDurationMillis());
-        System.out.println("Min latency: " + stats.getMinDurationMillis() + " ms");
-        System.out.println("Max latency: " + stats.getMaxDurationMillis() + " ms");
+        new ReportPrinter().print(stats, elapsed);
     }
 }
