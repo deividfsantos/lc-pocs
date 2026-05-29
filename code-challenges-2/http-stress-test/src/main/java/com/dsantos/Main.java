@@ -8,8 +8,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        StressTestConfig config = new StressTestConfig(
-                "https://httpbin.org/get", "GET", 10, 50, 10);
+        StressTestConfig config = StressTestConfig.builder("https://httpbin.org/get")
+                .method("GET")
+                .concurrency(10)
+                .totalRequests(50)
+                .timeoutSeconds(10)
+                .build();
         StatsCollector stats = new StatsCollector();
         ExecutorService executor = Executors.newFixedThreadPool(config.getConcurrency());
         long start = System.currentTimeMillis();
