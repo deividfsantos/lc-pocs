@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dontpad</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; }
+        #header { padding: 10px 20px; background: #f5f5f5; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px; }
+        #header h1 { font-size: 1.4em; color: #444; }
+        #pad-url { flex: 1; padding: 6px 10px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; }
+        #go-btn { padding: 6px 16px; background: #5c85d6; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 14px; }
+        #go-btn:hover { background: #4a72c4; }
+        #content { flex: 1; width: 100%; padding: 20px; border: none; resize: none; font-family: monospace; font-size: 14px; outline: none; }
+        #status { padding: 3px 20px; background: #f0f0f0; font-size: 11px; color: #888; border-top: 1px solid #e0e0e0; }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>dontpad</h1>
+        <input id="pad-url" type="text" placeholder="pad name...">
+        <button id="go-btn" onclick="navigate()">Go</button>
+    </div>
+    <textarea id="content" placeholder="Start typing..."></textarea>
+    <div id="status">connecting...</div>
+    <script>
+        const padId = window.location.pathname.substring(1) || 'home';
+        document.getElementById('pad-url').value = padId;
+        document.title = 'dontpad - ' + padId;
+
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(protocol + '//' + window.location.host + '/ws/' + padId);
+
+        ws.onopen = function() {
+            document.getElementById('status').textContent = 'connected';
+        };
+
+        ws.onmessage = function(event) {
+            document.getElementById('content').value = event.data;
+        };
+
+        ws.onclose = function() {
+            document.getElementById('status').textContent = 'disconnected';
+        };
+
+        let saveTimer;
+        document.getElementById('content').addEventListener('input', function() {
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(function() {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(document.getElementById('content').value);
+                }
+            }, 400);
+        });
+
+        function navigate() {
+            const target = document.getElementById('pad-url').value.trim();
+            if (target) {
+                window.location.href = '/' + target;
+            }
+        }
+
+        document.getElementById('pad-url').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') navigate();
+        });
+    </script>
+</body>
+</html>
