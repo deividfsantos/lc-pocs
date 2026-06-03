@@ -1,6 +1,6 @@
 package com.dsantos.handler;
 
-import com.dsantos.storage.PadStorage;
+import com.dsantos.storage.PadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -17,12 +17,12 @@ import java.util.Map;
 @Component
 public class PadWebSocketHandler extends TextWebSocketHandler {
 
-    private final PadStorage padStorage;
+    private final PadRepository padRepository;
     private final Map<String, List<WebSocketSession>> padSessions = new HashMap<>();
 
     @Autowired
-    public PadWebSocketHandler(PadStorage padStorage) {
-        this.padStorage = padStorage;
+    public PadWebSocketHandler(PadRepository padRepository) {
+        this.padRepository = padRepository;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class PadWebSocketHandler extends TextWebSocketHandler {
         String padId = extractPadId(session);
         System.out.println("New connection for pad: " + padId + ", session: " + session.getId());
         padSessions.computeIfAbsent(padId, k -> new ArrayList<>()).add(session);
-        String content = padStorage.getContent(padId);
+        String content = padRepository.getContent(padId);
         session.sendMessage(new TextMessage(content));
     }
 
@@ -39,7 +39,7 @@ public class PadWebSocketHandler extends TextWebSocketHandler {
         String padId = extractPadId(session);
         String content = message.getPayload();
         System.out.println("Received update for pad: " + padId);
-        padStorage.saveContent(padId, content);
+        padRepository.saveContent(padId, content);
         broadcast(padId, session, content);
     }
 

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class PadStorage {
+public class PadStorage implements PadRepository {
 
     private final Map<String, Pad> pads = new HashMap<>();
     private final Path storageDir = Paths.get("pads");
@@ -24,6 +24,7 @@ public class PadStorage {
         }
     }
 
+    @Override
     public String getContent(String padId) {
         System.out.println("Getting content for pad: " + padId);
         if (!pads.containsKey(padId)) {
@@ -33,12 +34,14 @@ public class PadStorage {
         return pad == null ? "" : pad.getContent();
     }
 
+    @Override
     public void saveContent(String padId, String content) {
         System.out.println("Saving content for pad: " + padId);
         pads.computeIfAbsent(padId, Pad::new).setContent(content);
         saveToDisk(padId, content);
     }
 
+    @Override
     public boolean exists(String padId) {
         return pads.containsKey(padId) || Files.exists(storageDir.resolve(padId + ".txt"));
     }
