@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class PadStorage implements PadRepository {
@@ -42,6 +46,21 @@ public class PadStorage implements PadRepository {
     @Override
     public boolean exists(String padId) {
         return pads.containsKey(padId) || Files.exists(storageDir.resolve(padId + ".txt"));
+    }
+
+    public void removeExpired() {
+        Instant cutoff = Instant.now().minus(30, ChronoUnit.DAYS);
+        Set<String> expired = pads.entrySet().stream()
+                .filter(e -> e.getValue().getLastModified().isBefore(cutoff))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+        expired.forEach(id -> {
+            pads.remove(id);
+            try {
+                Files.deleteIfExists(storageDir.resolve(id + ".txt"));
+            } catch (IOException ignored) {
+            }
+        });
     }
 
     private void saveToDisk(String padId, String content) {
