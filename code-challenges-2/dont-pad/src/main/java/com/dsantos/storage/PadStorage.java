@@ -26,7 +26,6 @@ public class PadStorage implements PadRepository {
 
     @Override
     public String getContent(String padId) {
-        System.out.println("Getting content for pad: " + padId);
         if (!pads.containsKey(padId)) {
             loadFromDisk(padId);
         }
@@ -36,7 +35,6 @@ public class PadStorage implements PadRepository {
 
     @Override
     public void saveContent(String padId, String content) {
-        System.out.println("Saving content for pad: " + padId);
         pads.computeIfAbsent(padId, Pad::new).setContent(content);
         saveToDisk(padId, content);
     }

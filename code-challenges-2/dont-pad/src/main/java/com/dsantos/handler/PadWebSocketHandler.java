@@ -28,7 +28,6 @@ public class PadWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String padId = extractPadId(session);
-        System.out.println("New connection for pad: " + padId + ", session: " + session.getId());
         padSessions.computeIfAbsent(padId, k -> new ArrayList<>()).add(session);
         String content = padRepository.getContent(padId);
         session.sendMessage(new TextMessage(content));
@@ -38,7 +37,6 @@ public class PadWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String padId = extractPadId(session);
         String content = message.getPayload();
-        System.out.println("Received update for pad: " + padId);
         padRepository.saveContent(padId, content);
         broadcast(padId, session, content);
     }
@@ -46,7 +44,6 @@ public class PadWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String padId = extractPadId(session);
-        System.out.println("Connection closed for pad: " + padId + ", session: " + session.getId());
         List<WebSocketSession> sessions = padSessions.get(padId);
         if (sessions != null) {
             sessions.remove(session);
