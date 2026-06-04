@@ -9,16 +9,16 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class PadWebSocketHandler extends TextWebSocketHandler {
 
     private final PadRepository padRepository;
-    private final Map<String, List<WebSocketSession>> padSessions = new HashMap<>();
+    private final Map<String, List<WebSocketSession>> padSessions = new ConcurrentHashMap<>();
 
     @Autowired
     public PadWebSocketHandler(PadRepository padRepository) {
@@ -28,7 +28,7 @@ public class PadWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String padId = extractPadId(session);
-        padSessions.computeIfAbsent(padId, k -> new ArrayList<>()).add(session);
+        padSessions.computeIfAbsent(padId, k -> new CopyOnWriteArrayList<>()).add(session);
         String content = padRepository.getContent(padId);
         session.sendMessage(new TextMessage(content));
     }
