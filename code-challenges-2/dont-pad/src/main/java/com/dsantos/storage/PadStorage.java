@@ -9,15 +9,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Component
 public class PadStorage implements PadRepository {
 
-    private final Map<String, Pad> pads = new HashMap<>();
+    private final Map<String, Pad> pads = new ConcurrentHashMap<>();
     private final Path storageDir = Paths.get("pads");
 
     public PadStorage() {
