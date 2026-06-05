@@ -6,34 +6,42 @@
     <title>dontpad</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; }
-        #header { padding: 10px 20px; background: #f5f5f5; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px; }
-        #header h1 { font-size: 1.4em; color: #444; }
-        #pad-url { flex: 1; padding: 6px 10px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; }
-        #go-btn { padding: 6px 16px; background: #5c85d6; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 14px; }
-        #go-btn:hover { background: #4a72c4; }
-        #content { flex: 1; width: 100%; padding: 20px; border: none; resize: none; font-family: monospace; font-size: 14px; outline: none; }
-        #status { padding: 3px 20px; background: #f0f0f0; font-size: 11px; color: #888; border-top: 1px solid #e0e0e0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; height: 100vh; background: #fff; }
+        #header { padding: 12px 24px; background: #2c3e50; display: flex; align-items: center; gap: 12px; }
+        #header h1 { font-size: 1.5em; color: #ecf0f1; font-weight: 600; letter-spacing: -0.5px; }
+        #pad-url { flex: 1; padding: 7px 12px; border: none; border-radius: 4px; font-size: 14px; background: #3d5166; color: #ecf0f1; outline: none; }
+        #pad-url::placeholder { color: #7f8c9a; }
+        #go-btn { padding: 7px 18px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+        #go-btn:hover { background: #219a52; }
+        #content { flex: 1; width: 100%; padding: 24px; border: none; resize: none; font-family: 'Courier New', Courier, monospace; font-size: 14px; outline: none; line-height: 1.6; color: #2c3e50; }
+        #footer { padding: 4px 24px; background: #f8f9fa; border-top: 1px solid #e9ecef; display: flex; justify-content: space-between; font-size: 11px; color: #adb5bd; }
+        .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; background: #adb5bd; vertical-align: middle; }
+        .dot.connected { background: #27ae60; }
     </style>
 </head>
 <body>
     <div id="header">
         <h1>dontpad</h1>
-        <input id="pad-url" type="text" placeholder="pad name...">
+        <input id="pad-url" type="text" placeholder="enter pad name...">
         <button id="go-btn" onclick="navigate()">Go</button>
     </div>
-    <textarea id="content" placeholder="Start typing..."></textarea>
-    <div id="status">connecting...</div>
+    <textarea id="content" placeholder="Start typing here. Your text is saved automatically and shared in real time."></textarea>
+    <div id="footer">
+        <span><span class="dot" id="dot"></span><span id="status">connecting...</span></span>
+        <span id="pad-label"></span>
+    </div>
     <script>
         const padId = window.location.pathname.substring(1) || 'home';
         document.getElementById('pad-url').value = padId;
-        document.title = 'dontpad - ' + padId;
+        document.getElementById('pad-label').textContent = '/' + padId;
+        document.title = 'dontpad / ' + padId;
 
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         const ws = new WebSocket(protocol + '//' + window.location.host + '/ws/' + padId);
 
         ws.onopen = function() {
             document.getElementById('status').textContent = 'connected';
+            document.getElementById('dot').className = 'dot connected';
         };
 
         ws.onmessage = function(event) {
@@ -42,6 +50,7 @@
 
         ws.onclose = function() {
             document.getElementById('status').textContent = 'disconnected';
+            document.getElementById('dot').className = 'dot';
         };
 
         let saveTimer;
