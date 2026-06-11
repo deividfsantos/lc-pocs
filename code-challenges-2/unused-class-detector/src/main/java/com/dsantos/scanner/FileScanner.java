@@ -6,13 +6,20 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileScanner {
+public class FileScanner implements Scanner {
 
+    private final String extension;
+
+    public FileScanner(String extension) {
+        this.extension = extension;
+    }
+
+    @Override
     public List<Path> scan(Path directory) throws IOException {
         try (var stream = Files.walk(directory)) {
             return stream
                     .filter(Files::isRegularFile)
-                    .filter(p -> p.toString().endsWith(".java"))
+                    .filter(p -> p.toString().endsWith(extension))
                     .collect(Collectors.toList());
         }
     }
