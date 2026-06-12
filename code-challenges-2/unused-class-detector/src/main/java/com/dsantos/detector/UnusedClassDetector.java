@@ -16,7 +16,7 @@ public class UnusedClassDetector {
     private final ReferenceScanner referenceScanner;
 
     public UnusedClassDetector() {
-        this.fileScanner = new FileScanner(".java");
+        this.fileScanner = new FileScanner();
         this.parser = new ClassNameParser();
         this.referenceScanner = new ReferenceScanner();
     }
@@ -40,5 +40,6 @@ public class UnusedClassDetector {
         return new DetectionResult(allClasses, unusedClasses);
     }
 }
+
 
 
