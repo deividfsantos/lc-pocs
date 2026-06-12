@@ -11,12 +11,12 @@ import java.util.regex.Pattern;
 public class ClassNameParser {
 
     private static final Pattern PATTERN = Pattern.compile(
-            "\\b(?:class|interface|enum|record)\\s+(\\w+)",
+            "(?:^|\\s)(?:(?:public|private|protected|abstract|final|sealed|non-sealed|static)\\s+)*(?:class|interface|enum|record)\\s+(\\w+)",
             Pattern.MULTILINE
     );
 
     public List<String> parse(Path file) throws IOException {
-        String content = Files.readString(file);
+        String content = stripComments(Files.readString(file));
         List<String> names = new ArrayList<>();
         Matcher matcher = PATTERN.matcher(content);
         while (matcher.find()) {
@@ -24,5 +24,12 @@ public class ClassNameParser {
         }
         return names;
     }
+
+    private String stripComments(String content) {
+        content = content.replaceAll("(?s)/\\*.*?\\*/", "");
+        content = content.replaceAll("//[^\n]*", "");
+        return content;
+    }
 }
+
 
