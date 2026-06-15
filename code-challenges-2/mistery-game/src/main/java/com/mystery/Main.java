@@ -1,15 +1,11 @@
 package com.mystery;
 
-import com.mystery.model.Clue;
-import com.mystery.model.Suspect;
 import com.mystery.ui.TerminalUI;
-
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         TerminalUI ui = new TerminalUI();
-        GameEngine engine = new GameEngine(List.of(), List.of());
+        GameEngine engine = new GameEngine();
 
         ui.printSeparator();
         ui.print("  MURDER AT THE RIVERSIDE HOTEL");
