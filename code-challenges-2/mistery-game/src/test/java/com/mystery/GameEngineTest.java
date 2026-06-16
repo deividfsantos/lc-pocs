@@ -88,4 +88,11 @@ class GameEngineTest {
         String result = engine.listFoundClues();
         assertTrue(result.contains("clue1"));
     }
+
+    @Test
+    void listSuspectsContainsAllSuspects() {
+        String result = engine.listSuspects();
+        assertTrue(result.contains("John Doe"));
+        assertTrue(result.contains("Jane Smith"));
+    }
 }

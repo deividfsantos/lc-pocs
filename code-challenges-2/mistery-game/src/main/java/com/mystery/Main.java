@@ -25,16 +25,26 @@ public class Main {
             String argument = parts.length > 1 ? parts[1] : "";
 
             switch (command) {
+                case "help" -> ui.print("""
+                    Commands:
+                      examine [location]  - search a location for clues
+                      talk [name]         - talk to a suspect
+                      suspects            - list persons of interest
+                      locations           - list searchable locations
+                      clues               - show clues you have found
+                      accuse [name]       - accuse someone of the murder
+                      quit                - leave the investigation""");
                 case "examine" -> ui.print(engine.examine(argument));
                 case "talk" -> ui.print(engine.talk(argument));
                 case "suspects" -> ui.print(engine.listSuspects());
                 case "locations" -> ui.print(engine.listLocations());
                 case "clues" -> ui.print(engine.listFoundClues());
+                case "accuse" -> ui.print("Not yet implemented. Gather more evidence first.");
                 case "quit", "exit" -> {
                     ui.print("Leaving the investigation.");
                     running = false;
                 }
-                default -> ui.print("Unknown command. Type 'help' for a list of commands.");
+                default -> ui.print("Unknown command '" + command + "'. Type 'help' for available commands.");
             }
         }
     }
