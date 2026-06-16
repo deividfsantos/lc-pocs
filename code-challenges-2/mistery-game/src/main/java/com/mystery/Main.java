@@ -25,6 +25,11 @@ public class Main {
             String argument = parts.length > 1 ? parts[1] : "";
 
             switch (command) {
+                case "examine" -> ui.print(engine.examine(argument));
+                case "talk" -> ui.print(engine.talk(argument));
+                case "suspects" -> ui.print(engine.listSuspects());
+                case "locations" -> ui.print(engine.listLocations());
+                case "clues" -> ui.print(engine.listFoundClues());
                 case "quit", "exit" -> {
                     ui.print("Leaving the investigation.");
                     running = false;
