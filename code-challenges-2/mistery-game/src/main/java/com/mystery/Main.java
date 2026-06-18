@@ -1,5 +1,6 @@
 package com.mystery;
 
+import com.mystery.model.GameResult;
 import com.mystery.ui.TerminalUI;
 
 public class Main {
@@ -39,7 +40,29 @@ public class Main {
                 case "suspects" -> ui.print(engine.listSuspects());
                 case "locations" -> ui.print(engine.listLocations());
                 case "clues" -> ui.print(engine.listFoundClues());
-                case "accuse" -> ui.print("Not yet implemented. Gather more evidence first.");
+                case "accuse" -> {
+                    GameResult result = engine.accuse(argument);
+                    switch (result) {
+                        case GameResult.Correct c -> {
+                            ui.print("You accuse " + c.suspectName() + ".");
+                            ui.printSeparator();
+                            ui.print("CASE SOLVED!");
+                            ui.print(c.suspectName() + " breaks down and confesses.");
+                            ui.print("Diana Crane poisoned Victor's whiskey to prevent him from dissolving their partnership.");
+                            ui.printSeparator();
+                            running = false;
+                        }
+                        case GameResult.Wrong w -> {
+                            ui.print("You accuse " + w.suspectName() + ", but the evidence does not hold up.");
+                            ui.print("The real killer was " + w.realKiller() + ". They slip away.");
+                            running = false;
+                        }
+                        case GameResult.Insufficient i -> {
+                            ui.print("You need more evidence before making an accusation.");
+                            ui.print("Clues found: " + i.cluesFound() + " / " + i.cluesNeeded() + " required.");
+                        }
+                    }
+                }
                 case "quit", "exit" -> {
                     ui.print("Leaving the investigation.");
                     running = false;

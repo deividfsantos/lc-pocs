@@ -1,6 +1,7 @@
 package com.mystery;
 
 import com.mystery.model.Clue;
+import com.mystery.model.GameResult;
 import com.mystery.model.Suspect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,5 +95,51 @@ class GameEngineTest {
         String result = engine.listSuspects();
         assertTrue(result.contains("John Doe"));
         assertTrue(result.contains("Jane Smith"));
+    }
+
+    @Test
+    void accuseWithInsufficientCluesReturnsInsufficient() {
+        GameResult result = engine.accuse("jane");
+        assertInstanceOf(GameResult.Insufficient.class, result);
+    }
+
+    @Test
+    void accuseGuiltyWithEnoughCluesReturnsCorrect() {
+        List<Clue> clues = List.of(
+            new Clue("c1", "Clue one.", "room1", false),
+            new Clue("c2", "Clue two.", "room2", false),
+            new Clue("c3", "Clue three.", "room3", false)
+        );
+        List<Suspect> suspects = List.of(
+            new Suspect("Alice Bad", "The villain.", "No alibi", true),
+            new Suspect("Bob Good", "The innocent.", "Has alibi", false)
+        );
+        GameEngine e2 = new GameEngine(clues, suspects);
+        e2.examine("room1");
+        e2.examine("room2");
+        e2.examine("room3");
+        GameResult result = e2.accuse("alice");
+        assertInstanceOf(GameResult.Correct.class, result);
+        assertTrue(e2.getState().isSolved());
+    }
+
+    @Test
+    void accuseWrongPersonWithEnoughCluesReturnsWrong() {
+        List<Clue> clues = List.of(
+            new Clue("c1", "Clue one.", "room1", false),
+            new Clue("c2", "Clue two.", "room2", false),
+            new Clue("c3", "Clue three.", "room3", false)
+        );
+        List<Suspect> suspects = List.of(
+            new Suspect("Alice Bad", "The villain.", "No alibi", true),
+            new Suspect("Bob Good", "The innocent.", "Has alibi", false)
+        );
+        GameEngine e2 = new GameEngine(clues, suspects);
+        e2.examine("room1");
+        e2.examine("room2");
+        e2.examine("room3");
+        GameResult result = e2.accuse("bob");
+        assertInstanceOf(GameResult.Wrong.class, result);
+        assertEquals("Alice Bad", ((GameResult.Wrong) result).realKiller());
     }
 }

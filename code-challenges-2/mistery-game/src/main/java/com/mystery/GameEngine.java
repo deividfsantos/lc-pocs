@@ -2,6 +2,7 @@ package com.mystery;
 
 import com.mystery.data.MysteryData;
 import com.mystery.model.Clue;
+import com.mystery.model.GameResult;
 import com.mystery.model.GameState;
 import com.mystery.model.Suspect;
 
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class GameEngine {
+    private static final int CLUES_NEEDED = 3;
+
     private final List<Clue> clues;
     private final List<Suspect> suspects;
     private final GameState state;
@@ -64,6 +67,27 @@ public class GameEngine {
         return suspect.name() + " (" + suspect.description() + ")\n  \"" + suspect.alibi() + ".\"";
     }
 
+    public GameResult accuse(String name) {
+        if (name.isBlank()) {
+            return new GameResult.Insufficient(state.getFoundClues().size(), CLUES_NEEDED);
+        }
+        if (state.getFoundClues().size() < CLUES_NEEDED) {
+            return new GameResult.Insufficient(state.getFoundClues().size(), CLUES_NEEDED);
+        }
+        Optional<Suspect> match = suspects.stream()
+            .filter(s -> s.name().toLowerCase().contains(name.toLowerCase()))
+            .findFirst();
+
+        if (match.isEmpty()) {
+            return new GameResult.Wrong(name, getGuiltyName());
+        }
+        if (match.get().guilty()) {
+            state.setSolved(true);
+            return new GameResult.Correct(match.get().name());
+        }
+        return new GameResult.Wrong(match.get().name(), getGuiltyName());
+    }
+
     public String listSuspects() {
         StringBuilder sb = new StringBuilder("Known persons of interest:\n");
         for (Suspect s : suspects) {
@@ -94,6 +118,11 @@ public class GameEngine {
                 .ifPresent(c -> sb.append("  [").append(c.id()).append("] ").append(c.description()).append("\n"));
         }
         return sb.toString().trim();
+    }
+
+    private String getGuiltyName() {
+        return suspects.stream().filter(Suspect::guilty).findFirst()
+            .map(Suspect::name).orElse("Unknown");
     }
 
     private void markClueFound(String id) {
