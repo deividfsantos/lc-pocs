@@ -80,7 +80,8 @@ public class GameEngine {
               - security_room
               - bar
               - hallway
-              - laundry""";
+              - laundry
+              - lobby""";
     }
 
     public String listFoundClues() {

@@ -25,7 +25,8 @@ public class MysteryData {
             new Clue("phone", "Victor's phone contains a threatening message: 'You'll regret cutting me out. -D'", "suite", false),
             new Clue("vial", "An empty vial of potassium cyanide found in the trash bin near room 412.", "hallway", false),
             new Clue("receipt", "Bar receipt shows 'D. Crawford' ordered two whiskeys at 10:45 PM.", "bar", false),
-            new Clue("dress", "A red dress with a monogram 'DC' found in a laundry bag from room 412.", "laundry", false)
+            new Clue("dress", "A red dress with a monogram 'DC' found in a laundry bag from room 412.", "laundry", false),
+            new Clue("keycard", "A keycard for room 412 found discarded near the lobby elevator.", "lobby", false)
         );
     }
 }
