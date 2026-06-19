@@ -1,12 +1,14 @@
 package com.mystery;
 
 import com.mystery.model.GameResult;
+import com.mystery.ui.CommandParser;
 import com.mystery.ui.TerminalUI;
 
 public class Main {
     public static void main(String[] args) {
         TerminalUI ui = new TerminalUI();
         GameEngine engine = new GameEngine();
+        CommandParser parser = new CommandParser();
 
         ui.printSeparator();
         ui.print("  MURDER AT THE RIVERSIDE HOTEL");
@@ -21,9 +23,9 @@ public class Main {
         boolean running = true;
         while (running) {
             String input = ui.readCommand();
-            String[] parts = input.split(" ", 2);
-            String command = parts[0];
-            String argument = parts.length > 1 ? parts[1] : "";
+            CommandParser.ParsedCommand parsed = parser.parse(input);
+            String command = parsed.command();
+            String argument = parsed.argument();
 
             switch (command) {
                 case "help" -> ui.print("""
